@@ -41,6 +41,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
-          dotnet-sonarscanner begin /k:"MESSI-of-coding_Car-Wash-System" /d:sonar.login="$SONAR_TOKEN" /d:sonar.host.url="$SONAR_HOST_URL"
+          dotnet-sonarscanner begin /k:"MESSI-of-coding_Car-Wash-System" /d:sonar.login=$SONAR_TOKEN /d:sonar.host.url=$SONAR_HOST_URL
           dotnet build
-          dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"
+          dotnet-sonarscanner end /d:sonar.login=$SONAR_TOKEN
