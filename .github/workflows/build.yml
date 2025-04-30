@@ -32,6 +32,17 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Validate Secrets
+        run: |
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "SONAR_TOKEN is not set. Please configure it in repository secrets."
+            exit 1
+          fi
+          if [ -z "$SONAR_HOST_URL" ]; then
+            echo "SONAR_HOST_URL is not set. Please configure it in repository secrets."
+            exit 1
+          fi
+
       - name: Install SonarQube Scanner for .NET
         run: |
           dotnet tool install --global dotnet-sonarscanner

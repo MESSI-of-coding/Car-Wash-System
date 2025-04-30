@@ -17,4 +17,9 @@
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CarWash.API\CarWash.API.csproj" />
+    <ProjectReference Include="..\CarWash.BL\CarWash.BL.csproj" />
+  </ItemGroup>
+
 </Project>
