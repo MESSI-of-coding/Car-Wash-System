@@ -61,6 +61,10 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 // Register IJwtService in the DI container
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// Register IWashRequestRepository and IWashRequestService in the DI container
+builder.Services.AddScoped<IWashRequestRepository, WashRequestRepository>();
+builder.Services.AddScoped<IWashRequestService, WashRequestService>();
+
 // Add services for controllers
 builder.Services.AddControllers();
 

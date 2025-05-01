@@ -31,16 +31,16 @@ namespace CarWash.Domain.Models
 
         // Navigation properties
         [ForeignKey("CustomerId")]
-        public required User Customer { get; set; }
+        public User? Customer { get; set; }
 
         [ForeignKey("WasherId")]
         public User? Washer { get; set; }
 
         [ForeignKey("CarId")]
-        public required Car Car { get; set; }
+        public Car? Car { get; set; }
 
         [ForeignKey("PackageId")]
-        public required WashPackage Package { get; set; }
+        public WashPackage? Package { get; set; }
 
         public ICollection<WashRequestAddOn> WashRequestAddOns { get; set; } = new List<WashRequestAddOn>();
     }
