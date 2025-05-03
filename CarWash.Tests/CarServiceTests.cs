@@ -12,13 +12,18 @@ namespace CarWash.Tests
     public class CarServiceTests
     {
         private Mock<ICarRepository> _carRepositoryMock;
+        private Mock<IUserService> _userServiceMock; // Add mock for IUserService
         private CarService _carService;
 
         [TestInitialize]
         public void Setup()
         {
             _carRepositoryMock = new Mock<ICarRepository>();
-            _carService = new CarService(_carRepositoryMock.Object);
+            _userServiceMock = new Mock<IUserService>();
+            _carService = new CarService(
+                _carRepositoryMock.Object,
+                _userServiceMock.Object
+            );
         }
 
         [TestMethod]
@@ -27,8 +32,8 @@ namespace CarWash.Tests
             // Arrange
             var expectedCars = new List<Car>
             {
-                new Car { CarId = 1, Model = "Model X" },
-                new Car { CarId = 2, Model = "Model Y" }
+                new Car { CarId = 1, Model = "Model X", LicensePlate = "ABC123" }, // Add LicensePlate
+                new Car { CarId = 2, Model = "Model Y", LicensePlate = "XYZ789" }
             };
             _carRepositoryMock.Setup(repo => repo.GetAllCarsAsync()).ReturnsAsync(expectedCars);
 
@@ -46,7 +51,12 @@ namespace CarWash.Tests
         {
             // Arrange
             var carId = 1;
-            var expectedCar = new Car { CarId = carId, Model = "Model X" };
+            var expectedCar = new Car
+            {
+                CarId = carId,
+                Model = "Model X",
+                LicensePlate = "ABC123" // Add required property
+            };
             _carRepositoryMock.Setup(repo => repo.GetCarByIdAsync(carId)).ReturnsAsync(expectedCar);
 
             // Act
@@ -71,6 +81,22 @@ namespace CarWash.Tests
             // Assert
             Assert.IsNull(result);
             _carRepositoryMock.Verify(repo => repo.GetCarByIdAsync(carId), Times.Once);
+        }
+
+        [TestMethod]
+        public void InitializeCarProperties()
+        {
+            // Arrange
+            var car = new Car
+            {
+                LicensePlate = "ABC123", // Set required property
+                Model = "Sedan"
+            };
+
+            // Assert
+            Assert.IsNotNull(car);
+            Assert.AreEqual("ABC123", car.LicensePlate);
+            Assert.AreEqual("Sedan", car.Model);
         }
     }
 }

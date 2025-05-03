@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarWash.API\CarWash.API.csproj" />
     <ProjectReference Include="..\CarWash.BL\CarWash.BL.csproj" />
+    <ProjectReference Include="..\CarWash.DAL\CarWash.DAL.csproj" />
   </ItemGroup>
 
 </Project>

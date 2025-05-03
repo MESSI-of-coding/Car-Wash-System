@@ -19,6 +19,7 @@ namespace CarWash.DAL.Data
         public DbSet<WashPackage> WashPackages { get; set; }
         public DbSet<AddOn> AddOns { get; set; }
         public DbSet<WashRequestAddOn> WashRequestAddOns { get; set; }
+        public DbSet<Notification> Notifications { get; set; } // Add this line
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,8 +38,7 @@ namespace CarWash.DAL.Data
             // Configure Geospatial Data (User.Location)
             modelBuilder.Entity<User>()
                 .Property(u => u.Location)
-                .HasColumnType("geography")
-                .IsRequired();
+                .HasColumnType("geometry"); // Map to GEOMETRY column
 
             // Configure Enum Mapping (WashRequest.Status)
             modelBuilder.Entity<WashRequest>()

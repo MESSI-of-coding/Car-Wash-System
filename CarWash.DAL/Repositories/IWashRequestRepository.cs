@@ -1,4 +1,5 @@
 using CarWash.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,5 +11,7 @@ namespace CarWash.DAL.Repositories
         Task<WashRequest> GetByIdAsync(int id);
         Task<List<WashRequest>> GetAllAsync();
         Task UpdateAsync(WashRequest request);
+        Task<bool> HasOverlappingScheduleAsync(int carId, DateTime scheduledDateTime);
+        Task<IEnumerable<WashRequest>> GetWashRequestsByUserIdAsync(int userId);
     }
 }

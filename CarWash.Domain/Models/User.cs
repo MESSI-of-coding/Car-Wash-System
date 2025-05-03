@@ -20,7 +20,7 @@ namespace CarWash.Domain.Models
         public string? FullName { get; set; } // Nullable if optional
         public string? ContactNumber { get; set; } // Nullable if optional
         public DateTime CreatedAt { get; set; }
-        public required Point Location { get; set; }
+        public required Point Location { get; set; } // Maps to GEOMETRY in SQL
         public bool IsActive { get; set; }
 
         // Initialized collections

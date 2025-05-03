@@ -3,6 +3,7 @@ using Moq;
 using CarWash.BL.Services;
 using System;
 using Microsoft.Extensions.Configuration;
+using CarWash.Domain.Models;
 
 namespace CarWash.Tests
 {
@@ -16,10 +17,6 @@ namespace CarWash.Tests
         public void Setup()
         {
             _configurationMock = new Mock<IConfiguration>();
-            _configurationMock.Setup(config => config["Jwt:Key"]).Returns("TestSecretKey");
-            _configurationMock.Setup(config => config["Jwt:Issuer"]).Returns("TestIssuer");
-            _configurationMock.Setup(config => config["Jwt:Audience"]).Returns("TestAudience");
-
             _jwtService = new JwtService(_configurationMock.Object);
         }
 
@@ -27,10 +24,16 @@ namespace CarWash.Tests
         public void GenerateToken_ShouldReturnValidToken()
         {
             // Arrange
-            var userId = 1;
+            var user = new User
+            {
+                UserId = 1,
+                Email = "test@example.com",
+                PasswordHash = "hashed_password",
+                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 }
+            };
 
             // Act
-            var token = _jwtService.GenerateToken(userId);
+            var token = _jwtService.GenerateToken(user); // Pass User object
 
             // Assert
             Assert.IsNotNull(token);
@@ -41,8 +44,14 @@ namespace CarWash.Tests
         public void ValidateToken_ShouldReturnTrue_ForValidToken()
         {
             // Arrange
-            var userId = 1;
-            var token = _jwtService.GenerateToken(userId);
+            var user = new User
+            {
+                UserId = 1,
+                Email = "test@example.com",
+                PasswordHash = "hashed_password",
+                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 }
+            };
+            var token = _jwtService.GenerateToken(user);
 
             // Act
             var isValid = _jwtService.ValidateToken(token);

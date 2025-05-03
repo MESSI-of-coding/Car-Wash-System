@@ -11,6 +11,7 @@ namespace CarWash.BL.Services
     public interface IJwtService
     {
         string GenerateToken(User user);
+        bool ValidateToken(string token);
     }
 
     public class JwtService : IJwtService
@@ -46,6 +47,12 @@ namespace CarWash.BL.Services
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public bool ValidateToken(string token)
+        {
+            // Add logic to validate the token
+            return true;
         }
     }
 }

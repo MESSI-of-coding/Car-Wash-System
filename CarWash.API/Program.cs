@@ -8,6 +8,11 @@ using CarWash.BL.Services;
 using Microsoft.AspNetCore.Identity; // For IPasswordHasher and PasswordHasher
 using CarWash.Domain.Models; // For User
 using CarWash.API.Middleware;
+using AutoMapper;
+using CarWash.BL.Mappings;
+using Microsoft.Extensions.Options;
+using Stripe;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,15 +66,25 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 // Register IJwtService in the DI container
 builder.Services.AddScoped<IJwtService, JwtService>();
 
-// Register IWashRequestRepository and IWashRequestService in the DI container
+// Register IWashRequestRepository and WashRequestService in the DI container
 builder.Services.AddScoped<IWashRequestRepository, WashRequestRepository>();
 builder.Services.AddScoped<IWashRequestService, WashRequestService>();
+
+// Register IUserRepository and UserRepository in the DI container
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Register NotificationService and ReminderService
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ReminderService>();
 
 // Add services for controllers
 builder.Services.AddControllers();
 
 // Add Authorization services
 builder.Services.AddAuthorization();
+
+// Register AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Validate Jwt:Key configuration
 var jwtKey = builder.Configuration["Jwt:Key"];
@@ -95,6 +110,30 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Bind Stripe settings from appsettings.json
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+// Configure Stripe API Key
+var stripeSettings = builder.Configuration.GetSection("Stripe").Get<StripeSettings>();
+if (stripeSettings != null)
+{
+    StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+}
+
+// Add Hangfire services
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+// Add Hangfire server
+builder.Services.AddHangfireServer();
+
+// Register missing services (IEventBus, IEmailSender, ISmsSender) in the DI container
+builder.Services.AddScoped<IEventBus, EventBus>(); // Replace EventBus with your actual implementation
+builder.Services.AddScoped<IEmailSender, EmailSender>(); // Add email service
+builder.Services.AddScoped<ISmsSender, SmsSender>(); // Add SMS service
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -113,6 +152,15 @@ app.UseMiddleware<ExceptionMiddleware>();
 // Add Authentication and Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Use Hangfire Dashboard
+app.UseHangfireDashboard();
+
+// Register a recurring Hangfire job
+RecurringJob.AddOrUpdate<ReminderService>("SendReminders", svc => svc.SendUpcomingRemindersAsync(), Cron.Daily);
+
+// Schedule a Hangfire background job to run every X minutes
+BackgroundJob.Schedule<AssignmentService>(svc => svc.AssignPendingRequestsAsync(), TimeSpan.FromMinutes(30));
 
 // Add CarsController endpoints to Swagger
 app.MapControllers();

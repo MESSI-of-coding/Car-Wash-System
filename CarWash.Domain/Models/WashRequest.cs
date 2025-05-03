@@ -29,6 +29,9 @@ namespace CarWash.Domain.Models
 
         public string? Notes { get; set; }
 
+        [Required]
+        public DateTime CreatedAt { get; set; } // Add CreatedAt property
+
         // Navigation properties
         [ForeignKey("CustomerId")]
         public User? Customer { get; set; }

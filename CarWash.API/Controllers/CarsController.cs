@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using CarWash.BL.Services;
 using CarWash.Domain.Models;
 using System.Security.Claims;
+using AutoMapper; // Add AutoMapper namespace
+using CarWash.BL.DTOs; // Add namespace for CarDto
 
 namespace CarWash.API.Controllers
 {
@@ -13,20 +15,24 @@ namespace CarWash.API.Controllers
     public class CarsController : ControllerBase
     {
         private readonly ICarService _carService;
+        private readonly IMapper _mapper;
 
-        public CarsController(ICarService carService)
+        public CarsController(ICarService carService, IMapper mapper)
         {
             _carService = carService;
+            _mapper = mapper;
         }
 
         /// <summary>
         /// Adds a new car for the current user.
         /// </summary>
-        /// <param name="car">The car to add.</param>
+        /// <param name="carDto">The car DTO to add.</param>
         /// <returns>The added car.</returns>
-        [HttpPost]
-        public async Task<IActionResult> AddCar([FromBody] Car car)
+        [HttpPost("add-car")]
+        public async Task<IActionResult> AddCar([FromBody] CarDto carDto)
         {
+            var car = _mapper.Map<Car>(carDto); // Map DTO to entity
+
             // Safely parse user ID with null check
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userIdClaim))

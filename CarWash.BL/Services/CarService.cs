@@ -1,6 +1,7 @@
 using CarWash.DAL.Repositories;
 using CarWash.Domain.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarWash.BL.Services
@@ -9,6 +10,8 @@ namespace CarWash.BL.Services
     {
         Task<Car> AddCarAsync(Car car, int userId); // Add a new car for a user
         Task<IEnumerable<Car>> GetCarsByUserIdAsync(int userId); // Get all cars for a specific user
+        Task<List<Car>> GetAllCarsAsync(); // Get all cars
+        Task<Car?> GetCarByIdAsync(int carId); // Get a car by its ID
     }
 
     public class CarService : ICarService
@@ -70,6 +73,25 @@ namespace CarWash.BL.Services
             }
 
             return userCars;
+        }
+
+        /// <summary>
+        /// Retrieves all cars.
+        /// </summary>
+        /// <returns>A list of all cars.</returns>
+        public async Task<List<Car>> GetAllCarsAsync()
+        {
+            return (await _carRepository.GetAllCarsAsync()).ToList();
+        }
+
+        /// <summary>
+        /// Retrieves a car by its ID.
+        /// </summary>
+        /// <param name="carId">The ID of the car to retrieve.</param>
+        /// <returns>The car with the specified ID, or null if not found.</returns>
+        public async Task<Car?> GetCarByIdAsync(int carId)
+        {
+            return await _carRepository.GetCarByIdAsync(carId);
         }
     }
 }

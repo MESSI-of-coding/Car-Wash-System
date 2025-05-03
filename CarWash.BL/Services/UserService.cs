@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity; // Added for IPasswordHasher
 using CarWash.DAL.Data; // Added for AppDbContext
+using CarWash.DAL.Repositories; // Added for IUserRepository
 using CarWash.BL.DTOs;
 using CarWash.Domain.Models;
 using Microsoft.EntityFrameworkCore; // Added for EF Core async methods
@@ -10,22 +11,25 @@ namespace CarWash.BL.Services
     {
         Task<(bool Success, string Message)> RegisterUserAsync(RegisterDto registerDto);
         Task<User?> ValidateUserAsync(LoginDto loginDto);
+        Task<User?> GetUserByIdAsync(int userId);
     }
 
     public class UserService : IUserService
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UserService(AppDbContext dbContext, IPasswordHasher<User> passwordHasher)
+        public UserService(
+            IUserRepository userRepository,
+            IPasswordHasher<User> passwordHasher)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
             _passwordHasher = passwordHasher;
         }
 
         public async Task<(bool Success, string Message)> RegisterUserAsync(RegisterDto registerDto)
         {
-            if (await _dbContext.Users.AnyAsync(u => u.Email == registerDto.Email))
+            if (await _userRepository.AnyAsync(u => u.Email == registerDto.Email))
             {
                 return (false, "Email is already registered.");
             }
@@ -42,25 +46,18 @@ namespace CarWash.BL.Services
                 Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // Default location
             };
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            _userRepository.Add(user);
+            await _userRepository.SaveChangesAsync();
 
             return (true, "User registered successfully.");
         }
 
         public async Task<User?> ValidateUserAsync(LoginDto loginDto)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
-
-            // Fix for nullability warnings
+            var user = await _userRepository.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null)
             {
-                return new User
-                {
-                    Email = "temp",
-                    PasswordHash = "temp",
-                    Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 }
-                };
+                return null; // Ensure the method's return type allows null
             }
 
             if (!_passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginDto.Password).Equals(PasswordVerificationResult.Success))
@@ -69,6 +66,11 @@ namespace CarWash.BL.Services
             }
 
             return user;
+        }
+
+        public async Task<User?> GetUserByIdAsync(int userId)
+        {
+            return await _userRepository.FindAsync(userId);
         }
     }
 }

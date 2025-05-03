@@ -3,6 +3,8 @@ using CarWash.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
+using System.Linq;
 
 namespace CarWash.DAL.Repositories
 {
@@ -36,6 +38,21 @@ namespace CarWash.DAL.Repositories
         {
             _context.WashRequests.Update(request);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasOverlappingScheduleAsync(int carId, DateTime scheduledDateTime)
+        {
+            return await _context.WashRequests.AnyAsync(wr =>
+                wr.CarId == carId &&
+                wr.ScheduledDateTime == scheduledDateTime &&
+                wr.Status != WashStatus.Cancelled);
+        }
+
+        public async Task<IEnumerable<WashRequest>> GetWashRequestsByUserIdAsync(int userId)
+        {
+            return await _context.WashRequests
+                .Where(wr => wr.CustomerId == userId)
+                .ToListAsync();
         }
     }
 }

@@ -1,3 +1,4 @@
+using CarWash.BL.DTOs;
 using CarWash.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,5 +14,6 @@ namespace CarWash.BL.Services
         Task<bool> IsValidCustomerId(int customerId);
         Task<bool> IsValidCarId(int carId);
         Task<bool> IsValidPackageId(int packageId);
+        Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(int userId);
     }
 }
