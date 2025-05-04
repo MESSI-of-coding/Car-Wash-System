@@ -1,5 +1,6 @@
 using CarWash.BL.DTOs;
 using CarWash.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,5 +16,6 @@ namespace CarWash.BL.Services
         Task<bool> IsValidCarId(int carId);
         Task<bool> IsValidPackageId(int packageId);
         Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(int userId);
+        Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, int serviceType); // Filters wash requests by date range and service type
     }
 }

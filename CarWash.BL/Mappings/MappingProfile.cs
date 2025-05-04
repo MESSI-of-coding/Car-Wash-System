@@ -14,6 +14,9 @@ namespace CarWash.BL.Mappings
 
             // Map between WashRequest and WashRequestDto
             CreateMap<WashRequest, WashRequestDto>().ReverseMap();
+
+            // Map LeaderboardEntry to LeaderboardDto
+            CreateMap<Leaderboard, LeaderboardDto>();
         }
     }
 }

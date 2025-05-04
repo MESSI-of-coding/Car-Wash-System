@@ -10,6 +10,7 @@ namespace CarWash.Domain.Models
         {
             UserRoles = new HashSet<UserRole>();
             Cars = new HashSet<Car>();
+            Notifications = new HashSet<Notification>();
         }
 
         public int UserId { get; set; }
@@ -26,5 +27,6 @@ namespace CarWash.Domain.Models
         // Initialized collections
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<Car> Cars { get; set; }
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>(); // Navigation property for Notifications
     }
 }

@@ -108,5 +108,12 @@ namespace CarWash.BL.Services
             var washRequests = await _washRequestRepository.GetWashRequestsByUserIdAsync(userId);
             return _mapper.Map<IEnumerable<WashRequestDto>>(washRequests);
         }
+
+        public async Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, int serviceType)
+        {
+            return await _dbContext.WashRequests
+                .Where(wr => wr.ScheduledDateTime.Date >= startDate.Date && wr.ScheduledDateTime.Date <= endDate.Date && wr.PackageId == serviceType)
+                .ToListAsync();
+        }
     }
 }

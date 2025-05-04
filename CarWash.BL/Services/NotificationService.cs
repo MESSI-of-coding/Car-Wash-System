@@ -33,8 +33,8 @@ namespace CarWash.BL.Services
             var notification = new Notification
             {
                 UserId = userId,
-                Message = message,
-                CreatedAt = DateTime.UtcNow
+                Message = message
+                // Removed CreatedAt assignment as it is no longer part of the model
             };
 
             // Save to the database

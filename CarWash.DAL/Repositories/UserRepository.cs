@@ -49,5 +49,15 @@ namespace CarWash.DAL.Repositories
         {
             return await _dbContext.Users.FindAsync(userId);
         }
+
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
+
+        public void Update(User user)
+        {
+            _dbContext.Users.Update(user);
+        }
     }
 }

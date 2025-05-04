@@ -54,5 +54,24 @@ namespace CarWash.DAL.Repositories
                 .Where(wr => wr.CustomerId == userId)
                 .ToListAsync();
         }
+
+        public async Task<List<DailyWashData>> GetDailyWashDataAsync(DateTime date)
+        {
+            return await _context.WashRequests
+                .Where(wr => wr.Status == WashStatus.Completed && wr.ActualWashDateTime.HasValue && wr.ActualWashDateTime.Value.Date == date.Date)
+                .GroupBy(wr => wr.CustomerId)
+                .Select(group => new DailyWashData
+                {
+                    UserId = group.Key,
+                    TotalWaterSavedGallons = group.Sum(wr => wr.Package.WaterSavedGallons) // Water Saved Calculation
+                })
+                .ToListAsync();
+        }
+    }
+
+    public class DailyWashData
+    {
+        public int UserId { get; set; }
+        public int TotalWaterSavedGallons { get; set; }
     }
 }

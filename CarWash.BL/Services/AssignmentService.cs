@@ -20,11 +20,9 @@ namespace CarWash.BL.Services
 
         public async Task AssignPendingRequestsAsync()
         {
-            var thresholdTime = DateTime.UtcNow.AddMinutes(-30); // Replace T with 30 minutes
-
             // Update the WashStatus comparison
             var pendingRequests = await _dbContext.WashRequests
-                .Where(wr => wr.Status == WashStatus.Pending && wr.CreatedAt <= thresholdTime)
+                .Where(wr => wr.Status == WashStatus.Pending)
                 .ToListAsync();
 
             foreach (var request in pendingRequests)

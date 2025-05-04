@@ -12,5 +12,7 @@ namespace CarWash.Domain.Models
         public string Type { get; set; } // Matches ENUM('StatusUpdate', 'Payment', 'Reminder')
         public bool IsRead { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public User User { get; set; } // Navigation property to User
     }
 }

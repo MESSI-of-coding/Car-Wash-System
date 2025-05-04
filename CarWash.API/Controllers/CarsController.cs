@@ -42,7 +42,7 @@ namespace CarWash.API.Controllers
             var userId = int.Parse(userIdClaim);
 
             var addedCar = await _carService.AddCarAsync(car, userId);
-            return CreatedAtAction(nameof(AddCar), new { id = addedCar.CarId }, addedCar);
+            return Ok(addedCar); // Removed CreatedAtAction
         }
 
         /// <summary>

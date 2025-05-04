@@ -12,6 +12,8 @@ namespace CarWash.BL.Services
         Task<(bool Success, string Message)> RegisterUserAsync(RegisterDto registerDto);
         Task<User?> ValidateUserAsync(LoginDto loginDto);
         Task<User?> GetUserByIdAsync(int userId);
+        Task<List<User>> GetAllUsersAsync(); // Retrieves all users
+        Task<bool> UpdateUserStatusAsync(int userId, bool isActive); // Updates the activation status of a user
     }
 
     public class UserService : IUserService
@@ -41,7 +43,6 @@ namespace CarWash.BL.Services
                 PasswordHash = _passwordHasher.HashPassword(new User { Email = "temp", PasswordHash = "temp", Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } }, registerDto.Password),
                 FullName = registerDto.FullName,
                 ContactNumber = registerDto.ContactNumber,
-                CreatedAt = DateTime.UtcNow,
                 IsActive = true,
                 Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // Default location
             };
@@ -71,6 +72,22 @@ namespace CarWash.BL.Services
         public async Task<User?> GetUserByIdAsync(int userId)
         {
             return await _userRepository.FindAsync(userId);
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _userRepository.GetAllAsync();
+        }
+
+        public async Task<bool> UpdateUserStatusAsync(int userId, bool isActive)
+        {
+            var user = await _userRepository.FindAsync(userId);
+            if (user == null) return false;
+
+            user.IsActive = isActive;
+            _userRepository.Update(user);
+            await _userRepository.SaveChangesAsync();
+            return true;
         }
     }
 }

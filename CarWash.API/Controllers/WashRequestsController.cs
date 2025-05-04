@@ -45,7 +45,7 @@ namespace CarWash.API.Controllers
                 return BadRequest("Failed to create wash request.");
             }
 
-            return CreatedAtAction(nameof(GetWashRequestById), new { id = createdWashRequest.RequestId }, createdWashRequest);
+            return Ok(createdWashRequest); // Removed CreatedAtAction
         }
 
         [HttpGet("{id}")]

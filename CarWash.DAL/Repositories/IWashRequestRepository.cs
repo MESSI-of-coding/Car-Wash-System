@@ -13,5 +13,6 @@ namespace CarWash.DAL.Repositories
         Task UpdateAsync(WashRequest request);
         Task<bool> HasOverlappingScheduleAsync(int carId, DateTime scheduledDateTime);
         Task<IEnumerable<WashRequest>> GetWashRequestsByUserIdAsync(int userId);
+        Task<List<DailyWashData>> GetDailyWashDataAsync(DateTime date); // Retrieves daily wash data for leaderboard updates
     }
 }
