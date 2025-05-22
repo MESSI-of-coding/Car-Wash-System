@@ -1,0 +1,14 @@
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="space-y-4 p-4 bg-white rounded shadow-md">
+  <input formControlName="model" placeholder="Car Model" class="input input-bordered w-full" />
+
+  <input formControlName="licensePlate" placeholder="License Plate" class="input input-bordered w-full" />
+
+  <input type="file" (change)="onFileChange($event)" class="file-input file-input-bordered w-full" />
+
+  <div *ngIf="selectedImage">
+    <p class="text-sm text-gray-600 mb-1">Image Preview:</p>
+    <img [src]="selectedImage" class="w-48 h-32 object-cover rounded" />
+  </div>
+
+  <button type="submit" class="btn btn-primary w-full" [disabled]="carForm.invalid">Add Car</button>
+</form>

@@ -1,3 +1,8 @@
+//Path: CarWash/carwash-frontend/src/app/modules/auth/login.component.ts
+//Purpose: This code defines a LoginComponent in Angular that handles user login functionality. 
+// It uses Reactive Forms for form handling and validation, and it interacts with an AuthService to perform the login operation. 
+// Upon successful login, it stores the JWT token in local storage and redirects the user based on their role (admin, washer, or customer).
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';

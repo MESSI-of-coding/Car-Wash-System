@@ -1,15 +1,25 @@
 import { provideRouter, Routes } from '@angular/router';
-import { authRoutes } from './modules/auth/auth.routes';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
-
-  ...authRoutes, // Spreads the auth-related routes
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./modules/auth/login.component').then(m => m.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./modules/auth/register.component').then(m => m.RegisterComponent),
+  },
   {
     path: 'customer',
+    canActivate: [authGuard, roleGuard('Customer')],
     loadChildren: () => import('./features/customer/customer.routes').then(m => m.routes),
-    canActivate: [authGuard, roleGuard(['Customer'])]
   },
   {
     path: 'customer/cars',
@@ -17,19 +27,28 @@ export const routes: Routes = [
       import('./modules/customer/car/car.routes').then(m => m.routes)
   },
   {
+    path: 'customer/wash',
+    loadChildren: () =>
+      import('./modules/customer/wash/wash.module').then(m => m.WashModule),
+  },
+  {
     path: 'washer',
+    canActivate: [authGuard, roleGuard('Washer')],
     loadChildren: () => import('./features/washer/washer.routes').then(m => m.routes),
-    canActivate: [authGuard, roleGuard(['Washer'])]
   },
   {
     path: 'admin',
+    canActivate: [authGuard, roleGuard('Admin')],
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.routes),
-    canActivate: [authGuard, roleGuard(['Admin'])]
   },
   {
     path: 'unauthorized',
     loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+  },
 ];
 
 export const appConfig = {

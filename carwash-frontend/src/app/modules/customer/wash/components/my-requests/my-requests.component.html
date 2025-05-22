@@ -1,0 +1,58 @@
+<div class="max-w-3xl mx-auto p-4">
+
+    <!-- Tabs -->
+    <div class="flex space-x-4 mb-6">
+        <button (click)="active='pending'" [class.font-bold]="active==='pending'">Pending</button>
+        <button (click)="active='inProcess'" [class.font-bold]="active==='inProcess'">In-Process</button>
+        <button (click)="active='completed'" [class.font-bold]="active==='completed'">Completed</button>
+    </div>
+
+    <!-- Pending List -->
+    <div *ngIf="active==='pending'">
+        <ng-container *ngIf="pending.length; else noPending">
+            <div *ngFor="let r of pending" class="mb-4 p-4 bg-white shadow rounded">
+                <div class="flex justify-between">
+                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
+                    <span>{{ r.requestedTime | date:'short' }}</span>
+                </div>
+                <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+            </div>
+        </ng-container>
+        <ng-template #noPending>
+            <p>No pending requests.</p>
+        </ng-template>
+    </div>
+
+    <!-- In-Process List -->
+    <div *ngIf="active==='inProcess'">
+        <ng-container *ngIf="inProcess.length; else noInProcess">
+            <div *ngFor="let r of inProcess" class="mb-4 p-4 bg-white shadow rounded">
+                <div class="flex justify-between">
+                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
+                    <span>{{ r.requestedTime | date:'short' }}</span>
+                </div>
+                <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+            </div>
+        </ng-container>
+        <ng-template #noInProcess>
+            <p>No in-process requests.</p>
+        </ng-template>
+    </div>
+
+    <!-- Completed List -->
+    <div *ngIf="active==='completed'">
+        <ng-container *ngIf="completed.length; else noCompleted">
+            <div *ngFor="let r of completed" class="mb-4 p-4 bg-white shadow rounded">
+                <div class="flex justify-between">
+                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
+                    <span>{{ r.requestedTime | date:'short' }}</span>
+                </div>
+                <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+            </div>
+        </ng-container>
+        <ng-template #noCompleted>
+            <p>No completed requests.</p>
+        </ng-template>
+    </div>
+
+</div>

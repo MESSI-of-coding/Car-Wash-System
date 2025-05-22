@@ -1,9 +1,37 @@
-<div class="min-h-screen flex flex-col items-center justify-center text-center p-6 bg-gray-100">
-  <h1 class="text-4xl font-bold text-red-600 mb-4">403 - Unauthorized</h1>
-  <p class="text-lg text-gray-700 mb-6">
-    You don’t have permission to access this page.
-  </p>
-  <a routerLink="/login" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-    Go to Login
-  </a>
+<div class="min-h-screen flex flex-col items-center justify-center text-center p-6 bg-gray-100 relative">
+  <!-- Absolutely positioned centered lock icon -->
+  <div class="absolute top-24 left-1/2 -translate-x-1/2 animate-bounce z-10">
+    <svg class="h-24 w-24 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+    </svg>
+  </div>
+
+  <div class="max-w-md w-full space-y-6 mt-32">
+    <!-- Text Content -->
+    <div class="space-y-3">
+      <h1 class="text-5xl font-extrabold text-red-600 mb-2 tracking-tight">403</h1>
+      <p class="text-2xl font-semibold text-gray-800">
+        Access Denied
+      </p>
+      <p class="text-gray-600 leading-relaxed">
+        Oops! It seems you don't have the necessary permissions to view this page. Please check your credentials or
+        contact your administrator.
+      </p>
+    </div>
+
+    <!-- Login Button -->
+    <div class="flex justify-center">
+      <a routerLink="/login"
+        class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 transform hover:-translate-y-0.5 shadow-sm hover:shadow-md">
+        Go to Login
+      </a>
+    </div>
+
+    <!-- Support Link -->
+    <p class="text-sm text-gray-500 mt-6">
+      Need help? <a href="mailto:support@example.com" class="font-medium text-blue-600 hover:text-blue-500">Contact
+        support</a>
+    </p>
+  </div>
 </div>

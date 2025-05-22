@@ -1,0 +1,31 @@
+<p>wash-now works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 max-w-xl mx-auto p-4">
+  <select formControlName="carId" class="w-full p-2 border rounded">
+    <option value="">Select Car</option>
+    <option *ngFor="let car of cars" [value]="car.carId">{{ car.model }}</option>
+  </select>
+
+  <select formControlName="packageId" class="w-full p-2 border rounded">
+    <option value="">Select Package</option>
+    <option *ngFor="let pkg of packages" [value]="pkg.packageId">{{ pkg.packageName }}</option>
+  </select>
+
+  <div *ngFor="let addon of addOns" class="flex items-center space-x-2">
+    <input type="checkbox" [value]="addon" (change)="toggleAddOn(addon, $event)" />
+    <label>{{ addon }}</label>
+  </div>
+
+  <label class="flex items-center space-x-2">
+    <input type="checkbox" formControlName="isImmediate" />
+    <span>Immediate Wash</span>
+  </label>
+
+  <div *ngIf="!form.value.isImmediate">
+    <input type="date" formControlName="scheduleDate" class="w-full p-2 border rounded" />
+    <input type="time" formControlName="scheduleTime" class="w-full p-2 border rounded" />
+  </div>
+
+  <textarea formControlName="notes" placeholder="Additional Notes" class="w-full p-2 border rounded"></textarea>
+
+  <button type="submit" [disabled]="form.invalid" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
+</form>
