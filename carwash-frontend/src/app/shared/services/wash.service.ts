@@ -3,10 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WashRequestDto, WashRequest } from 'src/app/core/models/wash-request.model';
-import { WashPackage } from './wash-package.model';
-import { WashRequest } from './wash-request.model';
 
-@Injectable({
+ @Injectable({
   providedIn: 'root'
 })
 export class WashService {
@@ -14,15 +12,15 @@ export class WashService {
 
   constructor(private http: HttpClient) { }
 
-  getPackages(): Observable<WashPackage[]> {
-    return this.http.get<WashPackage[]>(`${this.baseUrl}/api/packages`);
+  getPackages(): Observable<any[]> { // Temporarily use any[] until WashPackage model is created
+    return this.http.get<any[]>(`${this.baseUrl}/api/packages`);
   }
 
-  createRequest(dto: WashRequestDto): Observable<WashRequest> {
-    return this.http.post<WashRequest>(`${this.baseUrl}`, dto);
+  createRequest(dto: WashRequestDto): Observable<any> { // Temporarily use any until WashRequest model is confirmed
+    return this.http.post<any>(`${this.baseUrl}`, dto);
   }
 
-  getRequestsByUser(): Observable<WashRequest[]> {
-    return this.http.get<WashRequest[]>(`${this.baseUrl}/user`);
+  getRequestsByUser(): Observable<any[]> { // Temporarily use any[] until WashRequest model is confirmed
+    return this.http.get<any[]>(`${this.baseUrl}/user`);
   }
 }

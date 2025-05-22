@@ -4,13 +4,13 @@
 
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { authInterceptor } from './interceptors/auth.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useValue: authInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

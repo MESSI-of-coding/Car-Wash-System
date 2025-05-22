@@ -1,4 +1,4 @@
-import { provideRouter, Routes } from '@angular/router';
+import { outer, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
@@ -30,6 +30,11 @@ export const routes: Routes = [
     path: 'customer/wash',
     loadChildren: () =>
       import('./modules/customer/wash/wash.module').then(m => m.WashModule),
+  },
+  {
+    path: 'customer/payment',
+    loadChildren: () =>
+      import('./modules/customer/payment/payment.module').then(m => m.PaymentModule)
   },
   {
     path: 'washer',

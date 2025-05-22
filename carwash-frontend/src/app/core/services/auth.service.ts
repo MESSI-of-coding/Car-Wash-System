@@ -39,7 +39,7 @@ export class AuthService {
     return null; // SSR: localStorage not available
   }
 
-  register(data: { name: string; email: string; password: string; role: string }): Observable<any> {
+  register(data: { fullName: string; email: string; password: string; contactNumber?: string; role: string; location?: any }): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data);
   }
 }
