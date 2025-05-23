@@ -1,0 +1,119 @@
+<div class="p-6 bg-white rounded-lg shadow-sm">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+                Manage Washers
+            </h2>
+            <p class="text-sm text-gray-600 mt-1">{{ washers.length }} total washers</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <div class="relative">
+                <input type="text" [(ngModel)]="searchQuery" placeholder="Search washers..."
+                    class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500">
+                <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <button (click)="exportCSV()"
+                class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export CSV
+            </button>
+        </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="overflow-x-auto rounded-lg border">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th *ngFor="let header of headers"
+                        class="px-4 py-3 text-left text-sm font-semibold text-gray-700 cursor-pointer"
+                        (click)="sortTable(header.key)">
+                        <div class="flex items-center gap-1">
+                            {{ header.label }}
+                            <span *ngIf="sortColumn === header.key">
+                                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                            </span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200">
+                <tr *ngFor="let washer of filteredWashers" class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ washer.userId }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ washer.fullName }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ washer.email }}</td>
+                    <td class="px-4 py-3">
+                        <span [ngClass]="{
+                'bg-green-100 text-green-800': washer.isActive,
+                'bg-red-100 text-red-800': !washer.isActive
+              }" class="px-2.5 py-0.5 rounded-full text-xs font-medium">
+                            {{ washer.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-3">
+                            <button (click)="toggleStatus(washer)" [ngClass]="{
+                          'text-red-600 hover:text-red-700': washer.isActive,
+                          'text-green-600 hover:text-green-700': !washer.isActive
+                        }" class="flex items-center gap-1 text-sm">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        [attr.d]="washer.isActive ? 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728' : 'M9 5l7 7-7 7'" />
+                                </svg>
+                                {{ washer.isActive ? 'Deactivate' : 'Activate' }}
+                            </button>
+                            <button class="text-gray-600 hover:text-blue-600">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Loading/Empty States -->
+        <div *ngIf="loading" class="p-8 text-center text-gray-500">
+            Loading washers...
+        </div>
+        <div *ngIf="!loading && filteredWashers.length === 0" class="p-8 text-center text-gray-500">
+            No washers found matching your criteria
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div *ngIf="!loading && filteredWashers.length > 0"
+        class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="text-sm text-gray-600">
+            Showing {{ currentPageStart }} to {{ currentPageEnd }} of {{ filteredWashers.length }} results
+        </div>
+        <div class="flex gap-2">
+            <button (click)="previousPage()" [disabled]="currentPage === 1"
+                class="px-3 py-1 border rounded-md text-sm hover:bg-gray-50 disabled:opacity-50">
+                Previous
+            </button>
+            <button (click)="nextPage()" [disabled]="currentPage * itemsPerPage >= filteredWashers.length"
+                class="px-3 py-1 border rounded-md text-sm hover:bg-gray-50 disabled:opacity-50">
+                Next
+            </button>
+        </div>
+    </div>
+    </div>

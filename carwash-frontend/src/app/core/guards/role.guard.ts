@@ -1,29 +1,35 @@
 //Path: CarWash/carwash-frontend/src/app/core/guards/role.guard.ts
 // Purpose: This guard checks if the user has the expected role by decoding the JWT token. If the role matches, the user is allowed to access the route.
 
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth.service';
-import { jwtDecode } from 'jwt-decode';
 
-export const roleGuard = (expectedRole: string): CanActivateFn => () => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-  const platformId = inject(PLATFORM_ID);
-
-  if (isPlatformBrowser(platformId)) {
-    const token = authService.getToken();
-
-    if (token) {
-      const decoded: any = jwtDecode(token);
-      if (decoded?.role === expectedRole) {
-        return true;
-      }
-    }
-
-    router.navigate(['/unauthorized']);
+// Helper to decode JWT and extract role
+function getRoleFromToken(token: string | null): string | null {
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    // Accept both 'role' and 'roles' (array or string)
+    if (payload.role) return payload.role;
+    if (payload.roles && Array.isArray(payload.roles)) return payload.roles[0];
+    return null;
+  } catch {
+    return null;
   }
+}
 
-  return false;
+export const RoleGuard: CanActivateFn = (route, state) => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  const expectedRoles = route.data['roles'] as string[];
+  const token = auth.getToken();
+  const userRole = getRoleFromToken(token);
+
+  if (userRole && expectedRoles.includes(userRole)) {
+    return true;
+  } else {
+    router.navigate(['/unauthorized']);
+    return false;
+  }
 };
