@@ -19,7 +19,12 @@ namespace CarWash.BL.DTOs
         public DateTime ScheduledDateTime { get; set; }
 
         [Required(ErrorMessage = "Location is required.")]
-        [StringLength(100, ErrorMessage = "Location cannot exceed 100 characters.")]
-        public required string Location { get; set; } // Add "required" to enforce non-nullable property
+        public required LocationDto Location { get; set; } // Updated to use LocationDto
+    }
+
+    public class LocationDto
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

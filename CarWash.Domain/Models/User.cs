@@ -22,6 +22,7 @@ namespace CarWash.Domain.Models
         public string? ContactNumber { get; set; } // Nullable if optional
         public DateTime CreatedAt { get; set; }
         public required Point Location { get; set; } // Maps to GEOMETRY in SQL
+        // For DTO mapping: expose as { latitude = Location.Y, longitude = Location.X }
         public bool IsActive { get; set; }
 
         // Initialized collections

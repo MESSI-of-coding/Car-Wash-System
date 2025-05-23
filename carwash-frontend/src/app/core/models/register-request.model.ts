@@ -4,8 +4,8 @@ export interface RegisterRequest {
   password: string;
   contactNumber?: string;
   location: {
-    type: 'Point';                    // Fixed to "Point" for GeoJSON
-    coordinates: [number, number];    // [longitude, latitude]
+    latitude: number;
+    longitude: number;
   };
   role: 'Customer' | 'Washer';        // Role selection from dropdown
 }

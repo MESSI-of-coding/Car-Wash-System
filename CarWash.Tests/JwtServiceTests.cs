@@ -29,7 +29,7 @@ namespace CarWash.Tests
                 UserId = 1,
                 Email = "test@example.com",
                 PasswordHash = "hashed_password",
-                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 }
+                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // For DTO: map to { Latitude = Location.Y, Longitude = Location.X }
             };
 
             // Act
@@ -49,7 +49,7 @@ namespace CarWash.Tests
                 UserId = 1,
                 Email = "test@example.com",
                 PasswordHash = "hashed_password",
-                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 }
+                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // For DTO: map to { Latitude = Location.Y, Longitude = Location.X }
             };
             var token = _jwtService.GenerateToken(user);
 

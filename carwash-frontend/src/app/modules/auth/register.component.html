@@ -80,10 +80,10 @@
         </p>
       </div>
 
-      <!-- Hidden technical fields -->
+      <!-- Hidden technical fields for latitude and longitude -->
       <div formGroupName="location" class="hidden">
-        <input type="hidden" [formControlName]="0" />
-        <input type="hidden" [formControlName]="1" />
+        <input type="hidden" formControlName="latitude" />
+        <input type="hidden" formControlName="longitude" />
       </div>
 
       <button type="submit" [disabled]="registerForm.invalid"

@@ -44,7 +44,7 @@ namespace CarWash.BL.Services
                 FullName = registerDto.FullName,
                 ContactNumber = registerDto.ContactNumber,
                 IsActive = true,
-                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // Default location
+                Location = new NetTopologySuite.Geometries.Point(registerDto.Location.Longitude, registerDto.Location.Latitude) { SRID = 4326 } // Set from DTO
             };
 
             _userRepository.Add(user);

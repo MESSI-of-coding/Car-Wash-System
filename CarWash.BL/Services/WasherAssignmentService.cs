@@ -33,6 +33,8 @@ namespace CarWash.BL.Services
 
             // Use the customer’s location from Users table
             var customerLocation = washRequest.Customer.Location;
+            // If you need to use DTOs elsewhere, ensure you map:
+            // var locationDto = new LocationDto { Latitude = customerLocation.Y, Longitude = customerLocation.X };
 
             // Add null check for Customer
             if (washRequest.Customer == null || washRequest.Customer.Location == null)

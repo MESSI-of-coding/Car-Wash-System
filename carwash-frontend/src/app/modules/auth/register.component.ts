@@ -40,8 +40,8 @@ export class RegisterComponent {
       contactNumber: [''],
       role: ['Customer', Validators.required],
       location: this.fb.group({
-        type: ['Point'],
-        coordinates: [[0, 0], [Validators.required, this.validCoordinates]]
+        latitude: [0, Validators.required],
+        longitude: [0, Validators.required]
       })
     });
   }

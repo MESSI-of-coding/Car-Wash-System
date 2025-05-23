@@ -36,8 +36,8 @@ namespace CarWash.Tests
             {
                 UserId = userId,
                 Email = "test@example.com",
-                PasswordHash = "temp_hash", // Add required property
-                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // Add required property
+                PasswordHash = "temp_hash",
+                Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } // For DTO: map to { Latitude = Location.Y, Longitude = Location.X }
             };
             _userRepositoryMock.Setup(repo => repo.GetUserByIdAsync(userId)).ReturnsAsync(expectedUser);
 

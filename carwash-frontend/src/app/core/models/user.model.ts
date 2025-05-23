@@ -6,8 +6,8 @@ export interface User {
   contactNumber?: string;
   createdAt: Date;
   location: {
-    type: string;        // "Point"
-    coordinates: [number, number]; // [longitude, latitude]
+    latitude: number;
+    longitude: number;
   };
   isActive: boolean;
 

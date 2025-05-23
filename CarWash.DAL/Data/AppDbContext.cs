@@ -43,6 +43,7 @@ namespace CarWash.DAL.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.Location)
                 .HasColumnType("geometry"); // Map to GEOMETRY column
+            // If you need to map DTOs, ensure you map latitude/longitude to Point (X=longitude, Y=latitude)
 
             // Configure Enum Mapping (WashRequest.Status)
             modelBuilder.Entity<WashRequest>()
