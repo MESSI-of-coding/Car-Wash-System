@@ -5,10 +5,15 @@ import { provideRouter } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+  { 
+    path: '', 
+    component: HomeComponent,// Eager-loaded
+    //canActivate: [authGuard] 
   },
+  // {
+  //   path: '',
+  //   loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+  // },
   {
     path: 'login',
     loadComponent: () => import('./modules/auth/login/login.component').then(m => m.LoginComponent),
@@ -46,6 +51,10 @@ export const routes: Routes = [
   {
     path: 'unauthorized',
     loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
+  },
+  {
+    path: 'splash',
+    loadComponent: () => import('./shared/splashscreen/splash.component').then(m => m.SplashComponent)
   },
   {
     path: '**',

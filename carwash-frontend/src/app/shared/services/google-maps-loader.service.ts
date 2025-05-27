@@ -10,34 +10,31 @@ export class GoogleMapsLoaderService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  load(): Promise<void> {
-    if (!isPlatformBrowser(this.platformId)) {
-      // SSR: do not load Google Maps
-      return Promise.resolve();
-    }
-    if (this.loaded) {
-      return Promise.resolve();
-    }
-    if (this.loadPromise) {
-      return this.loadPromise;
-    }
+  async load(): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    if (this.loaded) return;
+    if (this.loadPromise) return this.loadPromise;
+
     this.loadPromise = new Promise<void>((resolve, reject) => {
-      if ((window as any).google && (window as any).google.maps) {
+      if ((window as any).google?.maps) {
         this.loaded = true;
         resolve();
         return;
       }
+
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${environment.googleMapsApiKey}&libraries=places&loading=async`;
       script.async = true;
       script.defer = true;
       script.onload = () => {
         this.loaded = true;
         resolve();
       };
-      script.onerror = (err) => reject(err);
+      script.onerror = reject;
       document.head.appendChild(script);
     });
+
     return this.loadPromise;
   }
 }

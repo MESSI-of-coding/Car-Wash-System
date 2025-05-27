@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -20,7 +20,9 @@ export const COMMON_IMPORTS = [RouterOutlet];
 export class AppComponent {
   title = 'BrightWheel Care';
 
-  constructor(private googleMapsLoader: GoogleMapsLoaderService) {
-    this.googleMapsLoader.load();
-  }
+  // constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
+
+  // async ngOnInit() {
+  //   await this.googleMapsLoader.load();
+  // }
 }

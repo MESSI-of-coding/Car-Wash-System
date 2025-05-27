@@ -2,9 +2,9 @@
 // Purpose: This file defines the routes for the authentication module of the application.
 
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login.component';
-import { RegisterComponent } from './register.component';
-import { ForgotPasswordComponent } from './forgot-password.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 export const authRoutes: Routes = [
   { path: 'login', component: LoginComponent },
