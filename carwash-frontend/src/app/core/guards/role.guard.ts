@@ -4,6 +4,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { Console } from 'console';
 
 // Helper to decode JWT and extract role
 function getRoleFromToken(token: string | null): string | null {
@@ -12,6 +13,7 @@ function getRoleFromToken(token: string | null): string | null {
     const payload = JSON.parse(atob(token.split('.')[1]));
     // Accept both 'role' and 'roles' (array or string)
     if (payload.role) return payload.role;
+    console.log(payload);
     if (payload.roles && Array.isArray(payload.roles)) return payload.roles[0];
     return null;
   } catch {

@@ -134,6 +134,17 @@ builder.Services.AddScoped<IEventBus, EventBus>(); // Replace EventBus with your
 builder.Services.AddScoped<IEmailSender, EmailSender>(); // Add email service
 builder.Services.AddScoped<ISmsSender, SmsSender>(); // Add SMS service
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -148,6 +159,9 @@ app.UseHttpsRedirection();
 
 // Add ExceptionMiddleware to the pipeline
 app.UseMiddleware<ExceptionMiddleware>();
+
+// Enable CORS for Angular app
+app.UseCors("AllowAngularApp");
 
 // Add Authentication and Authorization middleware
 app.UseAuthentication();

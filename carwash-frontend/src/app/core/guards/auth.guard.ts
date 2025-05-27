@@ -15,6 +15,7 @@ export const authGuard: CanActivateFn = () => {
   if (isPlatformBrowser(platformId)) {
     const token = authService.getToken();
     console.log('AuthGuard: Token exists?', !!token); // Debugging line
+    console.log(token);
     if (token) {
       return true;
     }

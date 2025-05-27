@@ -13,7 +13,7 @@ import { LoginResponse } from '../models/login-response.model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private platformId = inject(PLATFORM_ID);
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = 'http://localhost:5162/api/auth';
 
 
   constructor(private http: HttpClient) { }
@@ -22,8 +22,8 @@ export class AuthService {
   //   return this.http.post(`${this.apiUrl}/login`, { email, password });
   // }
 
-  login(data: { email: string; password: string; }, password: any): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`, data);
+  login( email: string, password: string ): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/api/auth/login`, { email, password });
   }
 
   logout() {

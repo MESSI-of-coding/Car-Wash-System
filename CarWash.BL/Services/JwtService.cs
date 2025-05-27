@@ -5,6 +5,7 @@ using System.Text;
 using CarWash.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using CarWash.DAL.Data;
 
 namespace CarWash.BL.Services
 {
@@ -18,13 +19,19 @@ namespace CarWash.BL.Services
     {
         private readonly IConfiguration _configuration;
 
-        public JwtService(IConfiguration configuration)
+        private readonly AppDbContext _context;
+
+        public JwtService(IConfiguration configuration, AppDbContext context)
         {
             _configuration = configuration;
+            _context = context;
         }
+
 
         public string GenerateToken(User user)
         {
+            var role = _context.Roles
+                .FirstOrDefault(ur => ur.UserId == user.UserId)?.RoleName ?? ""; // Default to "User" if no role found
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var keyString = jwtSettings["Key"] ?? throw new InvalidOperationException("JWT Key is not configured.");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
@@ -33,7 +40,7 @@ namespace CarWash.BL.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Role, "User") // Assuming "User" role for now
+                new Claim(ClaimTypes.Role, role ) // Assuming "User" role for now
             };
 
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

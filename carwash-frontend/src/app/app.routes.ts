@@ -5,15 +5,15 @@ import { provideRouter } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
-  { 
-    path: '', 
-    component: HomeComponent,// Eager-loaded
-    //canActivate: [authGuard] 
-  },
-  // {
-  //   path: '',
-  //   loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+  // { 
+  //   path: '', 
+  //   component: HomeComponent,// Eager-loaded
+  //   //canActivate: [authGuard] 
   // },
+  {
+    path: '',
+    loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent),
+  },
   {
     path: 'login',
     loadComponent: () => import('./modules/auth/login/login.component').then(m => m.LoginComponent),
@@ -32,36 +32,36 @@ export const routes: Routes = [
     path: 'customer/profile',
     loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
   },
-  {
-    path: 'washer',
-    canActivate: [authGuard, RoleGuard],
-    data: { roles: ['Washer'] },
-    loadChildren: () => import('./modules/washer/washer.module').then(m => m.WasherModule)
-  },
-  {
-    path: 'washer/profile',
-    loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
-  },
-  {
-    path: 'admin',
-    canActivate: [authGuard, RoleGuard],
-    data: { roles: ['Admin'] },
-    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
-  },
-  {
-    path: 'unauthorized',
-    loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
-  },
-  {
-    path: 'splash',
-    loadComponent: () => import('./shared/splashscreen/splash.component').then(m => m.SplashComponent)
-  },
+  // {
+  //   path: 'washer',
+  //   canActivate: [authGuard, RoleGuard],
+  //   data: { roles: ['Washer'] },
+  //   loadChildren: () => import('./modules/washer/washer.module').then(m => m.WasherModule)
+  // },
+  // {
+  //   path: 'washer/profile',
+  //   loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
+  // },
+  // {
+  //   path: 'admin',
+  //   canActivate: [authGuard, RoleGuard],
+  //   data: { roles: ['Admin'] },
+  //   loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
+  // },
+  // {
+  //   path: 'unauthorized',
+  //   loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
+  // },
+  // {
+  //   path: 'splash',
+  //   loadComponent: () => import('./shared/splashscreen/splash.component').then(m => m.SplashComponent)
+  // },
   {
     path: '**',
-    redirectTo: '/login',
+    redirectTo: '',
   },
 ];
 
-export const appConfig = {
-  providers: [provideRouter(routes)],
-};
+// export const appConfig = {
+//   providers: [provideRouter(routes)],
+// };

@@ -12,13 +12,13 @@ export const COMMON_IMPORTS = [RouterOutlet];
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [COMMON_IMPORTS, NavbarComponent, FooterComponent, ToastComponent, HomeComponent],
+  imports: [COMMON_IMPORTS, NavbarComponent, FooterComponent, ToastComponent, HomeComponent, RouterOutlet],
   // template: `<app-home></app-home>`,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'BrightWheel Care';
+  //title = 'BrightWheel Care';
 
   // constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
 
