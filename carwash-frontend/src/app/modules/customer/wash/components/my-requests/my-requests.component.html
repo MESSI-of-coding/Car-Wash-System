@@ -12,10 +12,10 @@
         <ng-container *ngIf="pending.length; else noPending">
             <div *ngFor="let r of pending" class="mb-4 p-4 bg-white shadow rounded">
                 <div class="flex justify-between">
-                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
-                    <span>{{ r.requestedTime | date:'short' }}</span>
+                    <span>{{ r.car.model }} - {{ r.package.packageName }}</span>
+                    <span>{{ r.scheduledDateTime | date:'short' }}</span>
                 </div>
-                <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+                <a [routerLink]="['/customer/wash/requests', r.requestId]" class="mt-2 text-blue-600">View</a>
             </div>
         </ng-container>
         <ng-template #noPending>
@@ -28,10 +28,10 @@
         <ng-container *ngIf="inProcess.length; else noInProcess">
             <div *ngFor="let r of inProcess" class="mb-4 p-4 bg-white shadow rounded">
                 <div class="flex justify-between">
-                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
-                    <span>{{ r.requestedTime | date:'short' }}</span>
+                    <span>{{ r.car.model }} - {{ r.package.packageName }}</span>
+                    <span>{{ r.scheduledDateTime | date:'short' }}</span>
                 </div>
-                <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+                <a [routerLink]="['/customer/wash/requests', r.requestId]" class="mt-2 text-blue-600">View</a>
             </div>
         </ng-container>
         <ng-template #noInProcess>
@@ -44,10 +44,11 @@
         <ng-container *ngIf="completed.length; else noCompleted">
             <div *ngFor="let r of completed" class="mb-4 p-4 bg-white shadow rounded">
                 <div class="flex justify-between">
-                    <span>{{ r.car.model }} - {{ r.packageName }}</span>
-                    <span>{{ r.requestedTime | date:'short' }}</span>
+                    <span>{{ r.car.model }} - {{ r.package.packageName }}</span>
+                    <span>{{ r.scheduledDateTime | date:'short' }}</span>
                 </div>
                 <button routerLink="/customer/wash/requests/{{r.requestId}}" class="mt-2 text-blue-600">View</button>
+
             </div>
         </ng-container>
         <ng-template #noCompleted>

@@ -6,4 +6,5 @@ export interface WashPackage {
   price: number;
   durationMinutes?: number; // Optional: estimated duration
   isActive: boolean;
+  waterSavedGallons: number; 
 }

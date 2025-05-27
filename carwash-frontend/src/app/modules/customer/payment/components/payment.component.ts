@@ -19,6 +19,8 @@ export class PaymentComponent implements OnInit {
   requestId: string = '';
   paymentSuccess = false;
   errorMessage = '';
+  cardError: string = '';        // <-- Added
+  processing: boolean = false;   // <-- Added
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +42,9 @@ export class PaymentComponent implements OnInit {
         const elements = this.stripe.elements();
         this.cardElement = elements.create('card');
         this.cardElement.mount('#card-element');
+        this.cardElement.on('change', (event: any) => {
+          this.cardError = event.error ? event.error.message : '';
+        });
       },
       error: (err) => {
         this.errorMessage = err?.message || 'Failed to initialize payment.';
@@ -49,13 +54,25 @@ export class PaymentComponent implements OnInit {
 
   async handlePayment() {
     if (!this.stripe || !this.clientSecret) return;
+    this.processing = true;
     const result = await this.stripeService.confirmPayment(this.clientSecret, this.cardElement);
     const { paymentIntent, error } = result;
     if (error) {
-      this.errorMessage = error.message ?? 'Payment failed.';
+      this.cardError = error.message ?? 'Payment failed.';
+      this.processing = false;
     } else if (paymentIntent?.status === 'succeeded') {
       this.paymentSuccess = true;
+      this.processing = false;
       setTimeout(() => this.router.navigate(['/customer/wash/requests']), 2000);
     }
+  }
+
+  goBack() {
+    this.router.navigate(['/customer/wash/requests']);
+  }
+
+  closeModal() {
+    this.paymentSuccess = false;
+    this.router.navigate(['/customer/wash/requests']);
   }
 }

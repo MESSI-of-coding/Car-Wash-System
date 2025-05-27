@@ -1,0 +1,177 @@
+<div class="p-6 space-y-6 bg-gray-50 min-h-screen">
+  <!-- Header Section -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+    <h2 class="text-2xl font-bold text-gray-900">My Wash Orders</h2>
+    <div class="mt-2 sm:mt-0 text-sm text-gray-600">
+      Showing {{ activeTab === 'current' ? 'active' : 'historical' }} orders
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <nav class="border-b border-gray-200">
+    <div class="flex space-x-8" role="tablist">
+      <button
+        role="tab"
+        [class]="activeTab === 'current' 
+          ? 'tab-button-active' 
+          : 'tab-button-inactive'"
+        (click)="activeTab = 'current'"
+        [attr.aria-selected]="activeTab === 'current'"
+        aria-controls="current-orders"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        Current Orders ({{ currentOrders.length }})
+      </button>
+      <button
+        role="tab"
+        [class]="activeTab === 'past' 
+          ? 'tab-button-active' 
+          : 'tab-button-inactive'"
+        (click)="activeTab = 'past'"
+        [attr.aria-selected]="activeTab === 'past'"
+        aria-controls="past-orders"
+      >
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Past Orders ({{ pastOrders.length }})
+      </button>
+    </div>
+  </nav>
+
+  <!-- Current Orders -->
+  <div 
+    *ngIf="activeTab === 'current'" 
+    role="tabpanel"
+    id="current-orders"
+    class="grid grid-cols-1 gap-4"
+  >
+    <div 
+      *ngFor="let order of currentOrders" 
+      class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+        <div class="space-y-1">
+          <h3 class="text-lg font-semibold">
+            {{ order.carModel }} • {{ order.licensePlate }}
+          </h3>
+          <p class="text-gray-600">{{ order.customerName }}</p>
+        </div>
+        <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+          {{ order.status | titlecase }}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <!-- Service Details -->
+        <div class="space-y-2">
+          <div class="info-item">
+            <span class="info-label">Package:</span>
+            <span class="info-value">{{ order.packageName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Scheduled Time:</span>
+            <span class="info-value">
+              {{ order.scheduledDateTime | date: 'MMM d, y • h:mm a' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="space-y-2">
+          <div class="info-item">
+            <span class="info-label">Contact:</span>
+            <span class="info-value">
+              {{ order.customerPhone || 'Not provided' }}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Location:</span>
+            <a 
+              [href]="getMapLink(order)" 
+              target="_blank"
+              class="info-value text-blue-600 hover:underline"
+            >
+              View on Map →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t mt-4 pt-4">
+        <button 
+          (click)="goToInvoice(order.requestId)"
+          class="btn-primary"
+          [disabled]="order.status !== 'accepted'"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Complete Service
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="currentOrders.length === 0" class="text-center py-12">
+      <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+      </svg>
+      <p class="mt-4 text-gray-600">No active wash orders found</p>
+    </div>
+  </div>
+
+  <!-- Past Orders -->
+  <div 
+    *ngIf="activeTab === 'past'" 
+    role="tabpanel"
+    id="past-orders"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+  >
+    <div 
+      *ngFor="let order of pastOrders" 
+      class="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+    >
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-semibold">{{ order.carModel }}</h3>
+        <span class="text-sm text-gray-500">
+          {{ order.actualWashDateTime | date: 'MMM d' }}
+        </span>
+      </div>
+
+      <div class="space-y-2">
+        <div class="info-item">
+          <span class="info-label">Customer:</span>
+          <span class="info-value">{{ order.customerName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Status:</span>
+          <span class="info-value">{{ order.status | titlecase }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Earnings:</span>
+          <span class="info-value">
+            {{ order.earnings | currency:'INR':'symbol':'1.0-0' }}
+          </span>
+        </div>
+      </div>
+
+      <div class="border-t mt-4 pt-4 flex justify-end">
+        <button 
+          (click)="viewReceipt(order.requestId)"
+          class="btn-secondary text-sm"
+        >
+          View Receipt
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="pastOrders.length === 0" class="text-center py-12 col-span-full">
+      <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <p class="mt-4 text-gray-600">No past orders available</p>
+    </div>
+  </div>
+</div>

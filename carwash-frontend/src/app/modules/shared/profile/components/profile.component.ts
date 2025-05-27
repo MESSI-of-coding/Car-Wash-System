@@ -1,3 +1,5 @@
+/// <reference types="@types/google.maps" />
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -5,7 +7,6 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { Router } from '@angular/router';
 
-declare const google: any;
 
 @Component({
   selector: 'app-profile',
@@ -60,24 +61,33 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  initMap() {
+  async initMap() {
     const mapEl = document.getElementById('map');
     if (!mapEl) return;
 
     this.map = new google.maps.Map(mapEl, {
       center: this.location,
-      zoom: 14
+      zoom: 14,
+      mapTypeControl: false,
+      streetViewControl: false
     });
+
+    const { Marker } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary;
 
     this.marker = new google.maps.Marker({
       position: this.location,
       map: this.map,
-      draggable: true
+      draggable: true,
+      title: "Your location"
     });
 
-    this.marker.addListener('dragend', (event: any) => {
-      this.location.lat = event.latLng.lat();
-      this.location.lng = event.latLng.lng();
+    this.marker.addListener('dragend', (event: google.maps.MapMouseEvent) => {
+      if (!event.latLng) return;
+      
+      this.location = {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng()
+      };
       // update form's location
       this.form.get('location')?.setValue({
         latitude: this.location.lat,
@@ -89,8 +99,8 @@ export class ProfileComponent implements OnInit {
   save(): void {
     if (this.form.invalid) return;
     this.userService.updateProfile(this.form.value).subscribe({
-      next: () => this.toast.success('Profile updated!'),
-      error: () => this.toast.error('Update failed')
+      next: () => this.toast.show('Profile updated!', 'success'),
+      error: () => this.toast.show('Update failed', 'error')
     });
   }
 }

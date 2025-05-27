@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SubmitReviewComponent } from './components/submit-review.component';
-import { WasherReviewsComponent } from './components/washer-reviews.component';
+import { SubmitReviewComponent } from './components/submit-review/submit-review.component';
+import { WasherReviewsComponent } from './components/washer-reviews/washer-reviews.component';
 
 const routes: Routes = [
   { path: 'review/:requestId', component: SubmitReviewComponent },

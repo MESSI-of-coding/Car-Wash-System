@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { WashRequestService } from 'src/app/core/services/wash-request.service'; // Adjust the import path as necessary
 import { CarService } from 'src/app/core/services/car.service'; // Adjust the import path as necessary
-import { WashService } from 'src/app/core/services/wash.service'; // Adjust the import path as necessary
+import { WashService } from 'src/app/shared/services/wash.service'; // Adjust the import path as necessary
 import { Car } from 'src/app/core/models/car.model'; // Adjust the import path as necessary
 import { WashPackage } from 'src/app/core/models/wash-package.model'; // Adjust the import path as necessary
 
@@ -47,10 +47,10 @@ export class WashNowComponent {
   }
 
   loadCars(): void {
-    this.carService.getCars().subscribe({
+    this.carService.getCarsByUser().subscribe({
       next: (cars) => {
         this.cars = cars;
-        this.form.patchValue({ carId: cars[0]?._id }); // Set default car
+        this.form.patchValue({ carId: cars[0]?.carId }); // Set default car
       },
       error: () => {
         this.toastService.show('Failed to load cars', 'error');
@@ -68,6 +68,24 @@ export class WashNowComponent {
         this.toastService.show('Failed to load wash packages', 'error');
       }
     });
+  }
+
+  toggleAddOn(addon: string, event: Event): void {
+    const addOnsControl = this.form.get('addOns');
+    if (!addOnsControl) return;
+    const addOns = addOnsControl.value as string[];
+    if ((event.target as HTMLInputElement).checked) {
+      if (!addOns.includes(addon)) {
+        addOns.push(addon);
+      }
+    } else {
+      const idx = addOns.indexOf(addon);
+      if (idx > -1) {
+        addOns.splice(idx, 1);
+      }
+    }
+    addOnsControl.setValue([...addOns]);
+    addOnsControl.markAsDirty();
   }
 
   onSubmit(): void {

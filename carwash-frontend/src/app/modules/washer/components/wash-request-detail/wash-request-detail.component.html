@@ -1,0 +1,116 @@
+<section class="p-6 space-y-6 bg-gray-50 min-h-screen" *ngIf="request">
+  <!-- Header Section -->
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">
+        Wash Request #{{ request.requestId }}
+      </h1>
+      <p class="text-gray-600 mt-1">
+        Status: 
+        <span [ngClass]="statusBadgeClass" class="px-3 py-1 rounded-full text-sm">
+          {{ request.status | titlecase }}
+        </span>
+      </p>
+    </div>
+    <button routerLink="/washer/dashboard" class="btn-secondary">
+      ← Back to Dashboard
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Customer & Vehicle Details -->
+    <div class="bg-white rounded-xl shadow-sm p-6 space-y-4">
+      <h3 class="text-lg font-semibold border-b pb-2">Customer Details</h3>
+      <div class="space-y-3">
+        <div class="info-item">
+          <span class="info-label">Name:</span>
+          <span class="info-value">{{ request.customerName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Contact:</span>
+          <span class="info-value">
+            {{ request.customerPhone || 'Not provided' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Vehicle:</span>
+          <span class="info-value">
+            {{ request.carModel }} ({{ request.licensePlate }})
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Vehicle Type:</span>
+          <span class="info-value">
+            {{ request.vehicleType || 'Standard' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service Details -->
+    <div class="bg-white rounded-xl shadow-sm p-6 space-y-4">
+      <h3 class="text-lg font-semibold border-b pb-2">Service Details</h3>
+      <div class="space-y-3">
+        <div class="info-item">
+          <span class="info-label">Package:</span>
+          <span class="info-value">{{ request.packageName }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Scheduled Time:</span>
+          <span class="info-value">
+            {{ request.scheduledDateTime | date: 'MMM d, y • h:mm a' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Location:</span>
+          <div class="info-value">
+            {{ request.address }}
+            <a [href]="getMapLink()" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="text-blue-600 hover:underline flex items-center mt-1">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293a1 1 0 00-1.414 0l-1.1 1.1a1 1 0 000 1.414l15 15a1 1 0 001.414 0l1.1-1.1a1 1 0 000-1.414l-15-15z" clip-rule="evenodd"/>
+              </svg>
+              Open in Maps
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Special Instructions -->
+  <div class="bg-white rounded-xl shadow-sm p-6">
+    <h3 class="text-lg font-semibold border-b pb-2 mb-4">Special Instructions</h3>
+    <p class="text-gray-700">
+      {{ request.notes || 'No special instructions provided' }}
+    </p>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex flex-col sm:flex-row gap-3 justify-end">
+    <button 
+      (click)="decline()"
+      [disabled]="isProcessing"
+      class="btn-danger"
+    >
+      <svg *ngIf="!isProcessing" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+      {{ isProcessing ? 'Processing...' : 'Decline Request' }}
+    </button>
+
+    <button 
+      (click)="accept()"
+      [disabled]="isProcessing"
+      class="btn-success"
+    >
+      <svg *ngIf="!isProcessing" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      {{ isProcessing ? 'Processing...' : 'Accept Request' }}
+    </button>
+  </div>
+</section>

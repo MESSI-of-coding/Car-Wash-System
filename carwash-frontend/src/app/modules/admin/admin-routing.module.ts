@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard.component';
-import { ManageUsersComponent } from './components/manage-users.component';
-import { ManageWashersComponent } from './components/manage-washers.component';
-import { ManageCarsComponent } from './components/manage-cars.component';
-import { ManagePackagesComponent } from './components/manage-packages.component';
-import { ManageAddOnsComponent } from './components/manage-addons.component';
-import { ManagePromosComponent } from './components/manage-promos.component';
-import { ReportsDashboardComponent } from './components/reports-dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ManageUsersComponent } from './components/users/manage-users.component';
+import { ManageWashersComponent } from './components/washers/manage-washers.component';
+import { ManageCarsComponent } from './components/cars/manage-cars.component';
+import { ManagePackagesComponent } from './components/packages/manage-packages.component';
+import { ManageAddonsComponent } from './components/addons/manage-addons.component';
+import { ManagePromosComponent } from './components/promos/manage-promos.component';
+import { ReportsDashboardComponent } from './components/reports/reports-dashboard.component';
 import { RoleGuard } from 'src/app/core/guards/role.guard';
 
 const routes: Routes = [
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   { path: 'cars', component: ManageCarsComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } },
   { path: 'packages', component: ManagePackagesComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } },
-  { path: 'addons', component: ManageAddOnsComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } },
+  { path: 'addons', component: ManageAddonsComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } },
   { path: 'promos', component: ManagePromosComponent, canActivate: [RoleGuard], data: { roles: ['Admin'] } },
   {
     path: 'reports',

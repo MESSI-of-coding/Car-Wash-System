@@ -1,0 +1,13 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-lg font-semibold mb-4">{{ promo ? 'Edit Promo' : 'Add Promo' }}</h2>
+
+        <!-- Add form inputs here as needed -->
+
+        <div class="mt-4 flex justify-end gap-3">
+            <button class="px-4 py-2 bg-gray-300 rounded" (click)="closeModal()">Cancel</button>
+            <button class="px-4 py-2 bg-blue-600 text-white rounded" (click)="savePromo()">Save</button>
+        </div>
+    </div>
+</div>
+  

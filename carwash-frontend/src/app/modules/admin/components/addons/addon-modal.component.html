@@ -1,0 +1,26 @@
+<div class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg w-full max-w-lg">
+        <h2 class="text-xl font-bold mb-4">{{ addon ? 'Edit' : 'Add' }} Add-On</h2>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+                <label class="block mb-1" for="addon-name">Name</label>
+                <input id="addon-name" class="w-full border p-2 rounded" formControlName="name"
+                    placeholder="Enter add-on name" title="Add-on name" />
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1" for="addon-description">Description</label>
+                <textarea id="addon-description" class="w-full border p-2 rounded" formControlName="description"
+                    placeholder="Enter description" title="Description"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block mb-1" for="addon-price">Price</label>
+                <input id="addon-price" type="number" class="w-full border p-2 rounded" formControlName="price"
+                    placeholder="Enter price" title="Price" />
+            </div>
+            <div class="flex justify-end gap-2 mt-6">
+                <button type="button" class="bg-gray-300 px-4 py-2 rounded" (click)="onClose()">Cancel</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="p-6 bg-white rounded-lg shadow-md">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h2 class="text-2xl font-bold">Welcome, {{ washerName }}</h2>
+      <p class="text-gray-500">{{ currentDate | date:'fullDate' }}</p>
+    </div>
+    <button (click)="refreshDashboard()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Refresh</button>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-blue-50 p-4 rounded shadow">
+      <div class="text-3xl font-bold text-blue-700">{{ stats?.todayJobs || 0 }}</div>
+      <div class="text-gray-600">Today's Jobs</div>
+    </div>
+    <div class="bg-green-50 p-4 rounded shadow">
+      <div class="text-3xl font-bold text-green-700">{{ stats?.completedJobs || 0 }}</div>
+      <div class="text-gray-600">Completed</div>
+    </div>
+    <div class="bg-yellow-50 p-4 rounded shadow">
+      <div class="text-3xl font-bold text-yellow-700">{{ stats?.pendingJobs || 0 }}</div>
+      <div class="text-gray-600">Pending</div>
+    </div>
+  </div>
+
+  <div *ngIf="stats?.nextJob" class="bg-gray-50 p-6 rounded-lg shadow mb-6">
+    <div class="flex items-center justify-between mb-2">
+      <h3 class="text-xl font-semibold">Next Job</h3>
+      <span class="px-3 py-1 rounded text-xs font-semibold {{ jobStatusClass }}">
+        {{ stats.nextJob.status }}
+      </span>
+    </div>
+    <div class="mb-2">
+      <span class="font-medium">Customer:</span> {{ stats.nextJob.customerName }}
+    </div>
+    <div class="mb-2">
+      <span class="font-medium">Address:</span> {{ stats.nextJob.address }}
+      <a *ngIf="mapsUrl" [href]="mapsUrl" target="_blank" class="ml-2 text-blue-600 underline">View on Map</a>
+    </div>
+    <div class="mb-2">
+      <span class="font-medium">Scheduled:</span> {{ stats.nextJob.scheduledTime | date:'short' }}
+    </div>
+    <div class="flex gap-2 mt-4">
+      <button (click)="acceptJob()" *ngIf="stats.nextJob.status === 'Pending'" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Accept</button>
+      <button (click)="startJob()" *ngIf="stats.nextJob.status === 'Accepted'" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Start</button>
+      <button (click)="requestReschedule()" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">Request Reschedule</button>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-6">
+    <div class="flex-1 bg-white p-4 rounded shadow">
+      <h4 class="font-semibold mb-2">Recent Reviews</h4>
+      <div *ngIf="stats?.recentReviews?.length; else noReviews">
+        <div *ngFor="let review of stats.recentReviews" class="mb-3 border-b pb-2">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-medium">{{ review.customerName }}</span>
+            <span class="text-yellow-500">★ {{ review.rating }}</span>
+          </div>
+          <div class="text-gray-600 text-sm">{{ review.comment }}</div>
+        </div>
+      </div>
+      <ng-template #noReviews>
+        <div class="text-gray-400">No reviews yet.</div>
+      </ng-template>
+    </div>
+    <div class="flex-1 bg-white p-4 rounded shadow">
+      <h4 class="font-semibold mb-2">Leaderboard</h4>
+      <div *ngIf="stats?.leaderboard?.length; else noLeaderboard">
+        <div *ngFor="let entry of stats.leaderboard" class="mb-2 flex items-center gap-2">
+          <span class="font-bold">#{{ entry.rank }}</span>
+          <span>{{ entry.name }}</span>
+          <span class="ml-auto text-green-600 font-semibold">{{ entry.completedJobs }} jobs</span>
+        </div>
+      </div>
+      <ng-template #noLeaderboard>
+        <div class="text-gray-400">No leaderboard data.</div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="mt-8 flex justify-end">
+    <button (click)="checkAvailableJobs()" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">Check Available Jobs</button>
+  </div>
+</div>

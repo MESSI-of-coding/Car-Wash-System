@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WashService } from 'src/app/core/services/wash.service';
+import { WashService } from 'src/app/shared/services/wash.service';
 import { WashRequest } from 'src/app/core/models/wash-request.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-my-requests',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './my-requests.component.html',
   styleUrls: ['./my-requests.component.scss']
 })

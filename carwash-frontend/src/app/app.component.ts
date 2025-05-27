@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './shared/navbar.component';
-import { FooterComponent } from './shared/footer.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { ToastComponent } from './shared/components/toast/toast.component';
 import { GoogleMapsLoaderService } from './shared/services/google-maps-loader.service';
+import { HomeComponent } from './features/home/home.component';
 
 // Define a constant for common imports
 export const COMMON_IMPORTS = [RouterOutlet];
@@ -11,12 +12,13 @@ export const COMMON_IMPORTS = [RouterOutlet];
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [COMMON_IMPORTS, NavbarComponent, FooterComponent, ToastComponent],
+  imports: [COMMON_IMPORTS, NavbarComponent, FooterComponent, ToastComponent, HomeComponent],
+  // template: `<app-home></app-home>`,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'QuickShine';
+  title = 'BrightWheel Care';
 
   constructor(private googleMapsLoader: GoogleMapsLoaderService) {
     this.googleMapsLoader.load();

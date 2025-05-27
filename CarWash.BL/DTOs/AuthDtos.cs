@@ -8,6 +8,7 @@ namespace CarWash.BL.DTOs
         public required string Password { get; set; } // Required password for registration
         public string? FullName { get; set; } // Optional full name
         public string? ContactNumber { get; set; } // Optional contact number
+        public LocationDto Location { get; set; }
     }
 
     public class LoginDto
