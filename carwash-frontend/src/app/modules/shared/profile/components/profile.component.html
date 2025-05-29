@@ -9,6 +9,13 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="save()" class="space-y-6">
+        <!-- Profile Picture -->
+        <div>
+          <label class="block text-gray-600 font-medium mb-2">Profile Picture</label>
+          <input type="file" (change)="onFileChange($event)" />
+          <img *ngIf="previewUrl" [src]="previewUrl" class="w-24 h-24 rounded-full mt-2 shadow-md" />
+        </div>
+
         <!-- Full Name -->
         <div class="space-y-2">
             <label class="block text-sm font-medium text-gray-700">Full Name</label>

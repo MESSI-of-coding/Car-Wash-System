@@ -1,7 +1,7 @@
 /// <reference types="@types/google.maps" />
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserService } from 'src/app/shared/services/user.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -26,6 +26,9 @@ export class ProfileComponent implements OnInit {
   defaultLatLng = { lat: 20.5937, lng: 78.9629 }; // fallback to India
   location: { lat: number; lng: number } = this.defaultLatLng;
 
+  previewUrl = '';
+  imageFile: File | null = null;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -38,6 +41,8 @@ export class ProfileComponent implements OnInit {
       this.form = this.fb.group({
         fullName: [user.fullName, Validators.required],
         email: [user.email, [Validators.required, Validators.email]],
+        contactNumber: [user.contactNumber || '', Validators.pattern(/^[0-9]{10}$/)],
+        imageUrl: [user.imageUrl || ''],
         location: this.fb.group({
           latitude: [user.location?.latitude || this.defaultLatLng.lat],
           longitude: [user.location?.longitude || this.defaultLatLng.lng]
@@ -94,6 +99,16 @@ export class ProfileComponent implements OnInit {
         longitude: this.location.lng
       });
     });
+  }
+
+  onFileChange(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    this.imageFile = file;
+    const reader = new FileReader();
+    reader.onload = () => this.previewUrl = reader.result as string;
+    reader.readAsDataURL(file);
   }
 
   save(): void {

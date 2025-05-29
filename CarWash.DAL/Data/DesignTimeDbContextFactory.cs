@@ -1,3 +1,6 @@
+//Purpose: This file contains the DesignTimeDbContextFactory class used for creating the AppDbContext at design time.
+// It is typically used by Entity Framework Core tools during migrations and scaffolding.
+
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;

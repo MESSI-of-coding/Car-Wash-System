@@ -32,30 +32,30 @@ export const routes: Routes = [
     path: 'customer/profile',
     loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
   },
-  // {
-  //   path: 'washer',
-  //   canActivate: [authGuard, RoleGuard],
-  //   data: { roles: ['Washer'] },
-  //   loadChildren: () => import('./modules/washer/washer.module').then(m => m.WasherModule)
-  // },
-  // {
-  //   path: 'washer/profile',
-  //   loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
-  // },
-  // {
-  //   path: 'admin',
-  //   canActivate: [authGuard, RoleGuard],
-  //   data: { roles: ['Admin'] },
-  //   loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
-  // },
-  // {
-  //   path: 'unauthorized',
-  //   loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
-  // },
-  // {
-  //   path: 'splash',
-  //   loadComponent: () => import('./shared/splashscreen/splash.component').then(m => m.SplashComponent)
-  // },
+  {
+    path: 'washer',
+    canActivate: [authGuard, RoleGuard],
+    data: { roles: ['Washer'] },
+    loadChildren: () => import('./modules/washer/washer.module').then(m => m.WasherModule)
+  },
+  {
+    path: 'washer/profile',
+    loadChildren: () => import('./modules/shared/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'admin',
+    canActivate: [authGuard, RoleGuard],
+    data: { roles: ['Admin'] },
+    loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: 'unauthorized',
+    loadComponent: () => import('./components/unauthorized.component').then(m => m.UnauthorizedComponent)
+  },
+  {
+    path: 'splash',
+    loadComponent: () => import('./shared/splashscreen/splash.component').then(m => m.SplashComponent)
+  },
   {
     path: '**',
     redirectTo: '',

@@ -20,32 +20,46 @@ namespace CarWash.BL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly AppDbContext _dbContext;
 
         public UserService(
             IUserRepository userRepository,
-            IPasswordHasher<User> passwordHasher)
+            IPasswordHasher<User> passwordHasher,
+            AppDbContext dbContext)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _dbContext = dbContext;
         }
 
         public async Task<(bool Success, string Message)> RegisterUserAsync(RegisterDto registerDto)
         {
             if (await _userRepository.AnyAsync(u => u.Email == registerDto.Email))
-            {
                 return (false, "Email is already registered.");
-            }
 
-            // Fix for User.Location required member
             var user = new User
             {
                 Email = registerDto.Email,
-                PasswordHash = _passwordHasher.HashPassword(new User { Email = "temp", PasswordHash = "temp", Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } }, registerDto.Password),
+                PasswordHash = _passwordHasher.HashPassword(
+                    new User { Email = "temp", PasswordHash = "temp", Location = new NetTopologySuite.Geometries.Point(0, 0) { SRID = 4326 } },
+                    registerDto.Password),
                 FullName = registerDto.FullName,
                 ContactNumber = registerDto.ContactNumber,
                 IsActive = true,
-                Location = new NetTopologySuite.Geometries.Point(registerDto.Location.Longitude, registerDto.Location.Latitude) { SRID = 4326 } // Set from DTO
+                Location = new NetTopologySuite.Geometries.Point(registerDto.Location.Longitude, registerDto.Location.Latitude) { SRID = 4326 }
             };
+
+            // --- Role assignment ---
+            var roleName = string.IsNullOrWhiteSpace(registerDto.Role) ? "Customer" : registerDto.Role;
+            // Find or create the role
+            var role = await _dbContext.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
+            if (role == null)
+            {
+                role = new Role { RoleName = roleName };
+                _dbContext.Roles.Add(role);
+                await _dbContext.SaveChangesAsync();
+            }
+            user.UserRoles.Add(new UserRole { User = user, Role = role });
 
             _userRepository.Add(user);
             await _userRepository.SaveChangesAsync();
@@ -55,7 +69,10 @@ namespace CarWash.BL.Services
 
         public async Task<User?> ValidateUserAsync(LoginDto loginDto)
         {
-            var user = await _userRepository.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
+            var user = await _dbContext.Users
+                .Include(u => u.UserRoles)
+                    .ThenInclude(ur => ur.Role)
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null)
             {
                 return null; // Ensure the method's return type allows null

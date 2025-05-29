@@ -41,14 +41,19 @@ export class LoginComponent {
         localStorage.setItem('token', token);
 
         const payload = JSON.parse(atob(token.split('.')[1]));
-        const role = payload.role;
+        const role =
+          payload.role ||
+          payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-        if (role === 'admin') {
+        if (role === 'Admin') {
           this.router.navigate(['/admin']);
-        } else if (role === 'washer') {
+        } else if (role === 'Washer') {
           this.router.navigate(['/washer']);
-        } else {
+        } else if (role === 'Customer') {
           this.router.navigate(['/customer']);
+        } else {
+          // fallback, e.g., unauthorized
+          this.router.navigate(['/unauthorized']);
         }
       },
       error: (err) => {
