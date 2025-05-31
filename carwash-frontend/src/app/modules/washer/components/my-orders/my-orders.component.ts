@@ -35,7 +35,7 @@ export class MyOrdersComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  completeOrder(orderId: number) {
+  completeOrder(orderId: string) {
     // TODO: Implement complete & generate invoice logic
     alert('Complete & Generate Invoice feature coming soon!');
   }
@@ -56,12 +56,12 @@ export class MyOrdersComponent implements OnInit {
     return `https://www.google.com/maps/search/?api=1&query=${order.latitude},${order.longitude}`;
   }
 
-  goToInvoice(requestId: number) {
+  goToInvoice(requestId: string) {
     // TODO: Implement navigation to invoice page
     alert('Complete & Generate Invoice feature coming soon!');
   }
 
-  viewReceipt(requestId: number) {
+  viewReceipt(requestId: string) {
     // TODO: Implement view receipt logic
     alert('View Receipt feature coming soon!');
   }

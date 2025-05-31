@@ -22,7 +22,7 @@ namespace CarWash.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Review>> GetByWasherIdAsync(int washerId)
+        public async Task<List<Review>> GetByWasherIdAsync(Guid washerId)
         {
             return await _context.Reviews
                 .Where(r => r.WasherId == washerId) // Ensure WasherId is used

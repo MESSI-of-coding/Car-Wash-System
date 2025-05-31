@@ -1,6 +1,6 @@
 export interface WashRequestDto {
-  carId: number;
-  packageId: number;
+  carId: string;
+  packageId: string;
   addOns: string[];
   isImmediate: boolean;
   scheduleDateTime?: string | null;
@@ -8,11 +8,11 @@ export interface WashRequestDto {
 }
 
 export interface WashRequest {
-  requestId: number;
-  customerId: number;
-  washerId?: number; // Nullable washer ID
-  car: { carId: number; model: string; licensePlate: string; imageURL?: string };
-  package: { packageId: number; packageName: string; description?: string; price: number };
+  requestId: string;
+  customerId: string;
+  washerId?: string; // Nullable washer ID
+  car: { carId: string; model: string; licensePlate: string; imageURL?: string };
+  package: { packageId: string; packageName: string; description?: string; price: number };
   addOns: string[];
   status: 'Pending' | 'Accepted' | 'InProgress' | 'Completed' | 'Cancelled';
   scheduledDateTime: string; // ISO string for ScheduledDateTime

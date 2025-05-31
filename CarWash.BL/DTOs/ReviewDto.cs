@@ -5,8 +5,8 @@ namespace CarWash.BL.DTOs
     public class ReviewDto
     {
 
-        public int ReviewId { get; set; }
-        public int RequestId { get; set; }
+        public Guid ReviewId { get; set; }
+        public Guid RequestId { get; set; }
 
         public int Rating { get; set; }
         public string Comments { get; set; }

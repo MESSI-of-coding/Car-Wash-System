@@ -15,7 +15,7 @@ namespace CarWash.DAL.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<User?> GetUserByIdAsync(int userId)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
             return await _dbContext.Users.FindAsync(userId);
         }
@@ -45,7 +45,7 @@ namespace CarWash.DAL.Repositories
             return await _dbContext.Users.FirstOrDefaultAsync(predicate);
         }
 
-        public async Task<User?> FindAsync(int userId)
+        public async Task<User?> FindAsync(Guid userId)
         {
             return await _dbContext.Users.FindAsync(userId);
         }

@@ -6,7 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { AddonModalComponent } from './addon-modal.component';
 
 export interface AddOnDto {
-  addOnId: number;
+  addOnId: string;
   name: string;
   description: string;
   price: number;

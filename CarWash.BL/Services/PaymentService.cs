@@ -54,7 +54,7 @@ namespace CarWash.BL.Services
             }
         }
 
-        public async Task<bool> ValidateUserOwnsRequestAsync(int userId, int requestId)
+        public async Task<bool> ValidateUserOwnsRequestAsync(Guid userId, Guid requestId)
         {
             // Query database to check if the user owns the request
             return await _context.WashRequests

@@ -37,7 +37,7 @@ namespace CarWash.API.Controllers
         /// <param name="washer">The updated washer details.</param>
         /// <returns>No content if successful.</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWasher(int id, [FromBody] User washer)
+        public async Task<IActionResult> UpdateWasher(Guid id, [FromBody] User washer)
         {
             var result = await _washerService.UpdateWasherAsync(id, washer);
 
@@ -55,7 +55,7 @@ namespace CarWash.API.Controllers
         /// <param name="id">The ID of the washer to delete.</param>
         /// <returns>No content if successful.</returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> SoftDeleteWasher(int id)
+        public async Task<IActionResult> SoftDeleteWasher(Guid id)
         {
             var result = await _washerService.SoftDeleteWasherAsync(id);
 

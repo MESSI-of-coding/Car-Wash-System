@@ -9,13 +9,13 @@ namespace CarWash.BL.Services
     public interface IWashRequestService
     {
         Task<WashRequest> CreateWashRequestAsync(WashRequest request);
-        Task<WashRequest> GetWashRequestByIdAsync(int id);
+        Task<WashRequest> GetWashRequestByIdAsync(Guid id);
         Task<List<WashRequest>> GetAllWashRequestsAsync();
-        Task<bool> UpdateWashRequestStatusAsync(int id, string status);
-        Task<bool> IsValidCustomerId(int customerId);
-        Task<bool> IsValidCarId(int carId);
-        Task<bool> IsValidPackageId(int packageId);
-        Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(int userId);
-        Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, int serviceType); // Filters wash requests by date range and service type
+        Task<bool> UpdateWashRequestStatusAsync(Guid id, string status);
+        Task<bool> IsValidCustomerId(Guid customerId);
+        Task<bool> IsValidCarId(Guid carId);
+        Task<bool> IsValidPackageId(Guid packageId);
+        Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(Guid userId);
+        Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, Guid serviceType); // Filters wash requests by date range and service type
     }
 }

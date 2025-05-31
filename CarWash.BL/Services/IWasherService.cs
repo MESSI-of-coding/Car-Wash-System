@@ -7,7 +7,7 @@ namespace CarWash.BL.Services
     public interface IWasherService
     {
         Task<List<User>> GetAllWashersAsync(); // Retrieves all washers
-        Task<bool> UpdateWasherAsync(int id, User washer); // Updates washer details
-        Task<bool> SoftDeleteWasherAsync(int id); // Soft deletes a washer
+        Task<bool> UpdateWasherAsync(Guid id, User washer); // Updates washer details
+        Task<bool> SoftDeleteWasherAsync(Guid id); // Soft deletes a washer
     }
 }

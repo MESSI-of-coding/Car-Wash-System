@@ -1,5 +1,5 @@
 export interface UserRole {
-  userId: number;
-  roleId: number;
+  userId: string;
+  roleId: string;
   roleName?: string; // optional if your API includes it
 }

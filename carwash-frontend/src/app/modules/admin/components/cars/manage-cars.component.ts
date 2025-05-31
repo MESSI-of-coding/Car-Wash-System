@@ -46,7 +46,7 @@ export class ManageCarsComponent implements OnInit {
     });
   }
 
-  delete(id: number) {
+  delete(id: string) {
     this.adminService.deleteCar(id).subscribe(() => this.load());
   }
 }

@@ -11,7 +11,7 @@ import { WasherService } from '../../services/washer.service';
   styleUrls: ['./wash-request-detail.component.scss']
 })
 export class WashRequestDetailComponent implements OnInit {
-  requestId!: number;
+  requestId!: string;
   request: any;
   isProcessing = false;
 
@@ -22,7 +22,7 @@ export class WashRequestDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.requestId = +this.route.snapshot.paramMap.get('id')!;
+    this.requestId = this.route.snapshot.paramMap.get('id')!;
     this.washerService.getWashRequest(this.requestId).subscribe(data => {
       this.request = data;
     });

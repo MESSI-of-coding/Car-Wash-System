@@ -33,7 +33,7 @@ namespace CarWash.API.Controllers
         public async Task<IActionResult> ExportFilteredWashRequests(
             [FromQuery] DateTime startDate,
             [FromQuery] DateTime endDate,
-            [FromQuery] int serviceType)
+            [FromQuery] Guid serviceType)
         {
             var filteredRequests = await _washRequestService.GetFilteredWashRequestsAsync(startDate, endDate, serviceType);
 
@@ -51,7 +51,7 @@ namespace CarWash.API.Controllers
                 for (int i = 0; i < filteredRequests.Count; i++)
                 {
                     var request = filteredRequests[i];
-                    worksheet.Cell(i + 2, 1).Value = request.RequestId;
+                    worksheet.Cell(i + 2, 1).Value = request.RequestId.ToString();
                     worksheet.Cell(i + 2, 2).Value = request.Customer?.FullName;
                     worksheet.Cell(i + 2, 3).Value = request.Package?.PackageName;
                     worksheet.Cell(i + 2, 4).Value = request.ScheduledDateTime;

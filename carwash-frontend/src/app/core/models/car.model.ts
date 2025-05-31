@@ -1,8 +1,8 @@
 import { User } from './user.model';
 
 export interface Car {
-  carId: number;
-  userId: number;
+  carId: string;
+  userId: string;
   model: string;
   licensePlate: string;
   imageURL?: string; // optional

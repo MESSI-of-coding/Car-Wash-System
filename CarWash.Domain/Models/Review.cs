@@ -5,13 +5,13 @@ namespace CarWash.Domain.Models
 {
     public class Review
     {
-        public int ReviewId { get; set; }
+        public Guid ReviewId { get; set; }
 
         [Required]
-        public int RequestId { get; set; } // Foreign key to WashRequests
+        public Guid RequestId { get; set; } // Foreign key to WashRequests
 
         [Required]
-        public int WasherId { get; set; }
+        public Guid WasherId { get; set; }
 
         [Range(1, 5)]
         public int Rating { get; set; } // Rating between 1 and 5

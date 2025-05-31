@@ -29,7 +29,7 @@
         </svg>
         <span>
           <span *ngIf="loginForm.get('email')?.errors?.['required']">Email required</span>
-          <span *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format</span>
+          <span *ngIf="loginForm.get('email')?.errors?.['pattern']">Invalid email format</span>
         </span>
       </div>
     </div>

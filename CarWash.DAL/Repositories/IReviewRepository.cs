@@ -7,6 +7,6 @@ namespace CarWash.DAL.Repositories
     public interface IReviewRepository
     {
         Task AddAsync(Review review);
-        Task<List<Review>> GetByWasherIdAsync(int washerId);
+        Task<List<Review>> GetByWasherIdAsync(Guid washerId);
     }
 }

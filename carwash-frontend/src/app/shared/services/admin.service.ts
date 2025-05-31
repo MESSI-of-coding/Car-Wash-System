@@ -14,7 +14,7 @@ export class AdminService {
     return this.http.get<any[]>(`${this.baseUrl}/users`);
   }
 
-  toggleUserStatus(userId: number, isActive: boolean): Observable<any> {
+  toggleUserStatus(userId: string, isActive: boolean): Observable<any> {
     return this.http.put(`${this.baseUrl}/users/${userId}/status`, { isActive });
   }
 
@@ -34,7 +34,7 @@ export class AdminService {
     return this.http.get<any[]>(`${this.baseUrl}/cars`);
   }
 
-  deleteCar(carId: number): Observable<any> {
+  deleteCar(carId: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/cars/${carId}`);
   }
 
@@ -51,7 +51,7 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/packages`, pkg);
   }
 
-  deletePackage(id: number): Observable<any> {
+  deletePackage(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/packages/${id}`);
   }
 
@@ -64,7 +64,7 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/addons`, addon);
   }
 
-  deleteAddOn(id: number): Observable<any> {
+  deleteAddOn(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/addons/${id}`);
   }
 
@@ -77,7 +77,7 @@ export class AdminService {
     return this.http.post(`${this.baseUrl}/promos`, promo);
   }
 
-  deletePromo(id: number): Observable<any> {
+  deletePromo(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/promos/${id}`);
   }
 

@@ -39,7 +39,7 @@ namespace CarWash.API.Controllers
             {
                 return Unauthorized("User ID is missing in the token.");
             }
-            var userId = int.Parse(userIdClaim);
+            var userId = Guid.Parse(userIdClaim);
 
             var addedCar = await _carService.AddCarAsync(car, userId);
             return Ok(addedCar); // Removed CreatedAtAction
@@ -58,7 +58,7 @@ namespace CarWash.API.Controllers
             {
                 return Unauthorized("User ID is missing in the token.");
             }
-            var userId = int.Parse(userIdClaim);
+            var userId = Guid.Parse(userIdClaim);
 
             var userCars = await _carService.GetCarsByUserIdAsync(userId);
             return Ok(userCars);

@@ -8,10 +8,10 @@ namespace CarWash.BL.Services
 {
     public interface ICarService
     {
-        Task<Car> AddCarAsync(Car car, int userId); // Add a new car for a user
-        Task<IEnumerable<Car>> GetCarsByUserIdAsync(int userId); // Get all cars for a specific user
+        Task<Car> AddCarAsync(Car car, Guid userId); // Add a new car for a user
+        Task<IEnumerable<Car>> GetCarsByUserIdAsync(Guid userId); // Get all cars for a specific user
         Task<List<Car>> GetAllCarsAsync(); // Get all cars
-        Task<Car?> GetCarByIdAsync(int carId); // Get a car by its ID
+        Task<Car?> GetCarByIdAsync(Guid carId); // Get a car by its ID
     }
 
     public class CarService : ICarService
@@ -32,7 +32,7 @@ namespace CarWash.BL.Services
         /// <param name="car">The car to add.</param>
         /// <param name="userId">The ID of the user adding the car.</param>
         /// <returns>The added car.</returns>
-        public async Task<Car> AddCarAsync(Car car, int userId)
+        public async Task<Car> AddCarAsync(Car car, Guid userId)
         {
             var userCars = await _carRepository.GetAllCarsAsync();
             var userCarCount = 0;
@@ -59,7 +59,7 @@ namespace CarWash.BL.Services
         /// </summary>
         /// <param name="userId">The ID of the user whose cars are to be retrieved.</param>
         /// <returns>A list of cars associated with the user.</returns>
-        public async Task<IEnumerable<Car>> GetCarsByUserIdAsync(int userId)
+        public async Task<IEnumerable<Car>> GetCarsByUserIdAsync(Guid userId)
         {
             var allCars = await _carRepository.GetAllCarsAsync();
             var userCars = new List<Car>();
@@ -89,7 +89,7 @@ namespace CarWash.BL.Services
         /// </summary>
         /// <param name="carId">The ID of the car to retrieve.</param>
         /// <returns>The car with the specified ID, or null if not found.</returns>
-        public async Task<Car?> GetCarByIdAsync(int carId)
+        public async Task<Car?> GetCarByIdAsync(Guid carId)
         {
             return await _carRepository.GetCarByIdAsync(carId);
         }

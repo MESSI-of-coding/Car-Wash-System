@@ -49,7 +49,7 @@ namespace CarWash.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWashRequestById(int id)
+        public async Task<IActionResult> GetWashRequestById(Guid id)
         {
             var result = await _washRequestService.GetWashRequestByIdAsync(id);
             if (result == null)
@@ -67,7 +67,7 @@ namespace CarWash.API.Controllers
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateWashRequestStatus(int id, [FromBody] string status)
+        public async Task<IActionResult> UpdateWashRequestStatus(Guid id, [FromBody] string status)
         {
             var result = await _washRequestService.UpdateWashRequestStatusAsync(id, status);
             if (!result)
@@ -91,7 +91,7 @@ namespace CarWash.API.Controllers
                 return Unauthorized("User ID is missing in the token.");
             }
 
-            var userId = int.Parse(userIdClaim);
+            var userId = Guid.Parse(userIdClaim);
 
             // Fetch wash requests via service
             var washRequests = await _washRequestService.GetWashRequestsByUserIdAsync(userId);

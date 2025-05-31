@@ -7,6 +7,6 @@ namespace CarWash.BL.Services
     public interface IReviewService
     {
         Task SubmitReviewAsync(CreateReviewDto dto);
-        Task<List<ReviewDto>> GetReviewsForWasherAsync(int washerId);
+        Task<List<ReviewDto>> GetReviewsForWasherAsync(Guid washerId);
     }
 }

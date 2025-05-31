@@ -24,7 +24,7 @@ namespace CarWash.DAL.Repositories
             return request;
         }
 
-        public async Task<WashRequest> GetByIdAsync(int id)
+        public async Task<WashRequest> GetByIdAsync(Guid id)
         {
             return await _context.WashRequests.FindAsync(id);
         }
@@ -40,7 +40,7 @@ namespace CarWash.DAL.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> HasOverlappingScheduleAsync(int carId, DateTime scheduledDateTime)
+        public async Task<bool> HasOverlappingScheduleAsync(Guid carId, DateTime scheduledDateTime)
         {
             return await _context.WashRequests.AnyAsync(wr =>
                 wr.CarId == carId &&
@@ -48,7 +48,7 @@ namespace CarWash.DAL.Repositories
                 wr.Status != WashStatus.Cancelled);
         }
 
-        public async Task<IEnumerable<WashRequest>> GetWashRequestsByUserIdAsync(int userId)
+        public async Task<IEnumerable<WashRequest>> GetWashRequestsByUserIdAsync(Guid userId)
         {
             return await _context.WashRequests
                 .Where(wr => wr.CustomerId == userId)
@@ -71,7 +71,7 @@ namespace CarWash.DAL.Repositories
 
     public class DailyWashData
     {
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public int TotalWaterSavedGallons { get; set; }
     }
 }

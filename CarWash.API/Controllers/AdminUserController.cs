@@ -42,7 +42,7 @@ namespace CarWash.API.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateUserStatus(int id, [FromRoute] string action)
+        public async Task<IActionResult> UpdateUserStatus(Guid id, [FromRoute] string action)
         {
             if (action != "activate" && action != "deactivate")
             {

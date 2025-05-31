@@ -15,19 +15,19 @@ export class WashRequestService {
     return this.http.post<WashRequest>(`${this.baseUrl}`, request);
   }
 
-  getCustomerRequests(customerId: number): Observable<WashRequest[]> {
+  getCustomerRequests(customerId: string): Observable<WashRequest[]> {
     return this.http.get<WashRequest[]>(`${this.baseUrl}/customer/${customerId}`);
   }
 
-  getWasherRequests(washerId: number): Observable<WashRequest[]> {
+  getWasherRequests(washerId: string): Observable<WashRequest[]> {
     return this.http.get<WashRequest[]>(`${this.baseUrl}/washer/${washerId}`);
   }
 
-  getRequestById(requestId: number): Observable<WashRequest> {
+  getRequestById(requestId: string): Observable<WashRequest> {
     return this.http.get<WashRequest>(`${this.baseUrl}/${requestId}`);
   }
 
-  updateRequestStatus(requestId: number, status: string): Observable<WashRequest> {
+  updateRequestStatus(requestId: string, status: string): Observable<WashRequest> {
     return this.http.patch<WashRequest>(`${this.baseUrl}/${requestId}/status`, { status });
   }
 }

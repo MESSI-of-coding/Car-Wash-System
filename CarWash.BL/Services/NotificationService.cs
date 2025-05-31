@@ -27,7 +27,7 @@ namespace CarWash.BL.Services
             eventBus.Subscribe<WashRequestCompleted>(async e => await SendNotificationAsync(e.UserId, "Your wash request has been completed."));
         }
 
-        public async Task SendNotificationAsync(int userId, string message)
+        public async Task SendNotificationAsync(Guid userId, string message)
         {
             // Create a new Notification record
             var notification = new Notification
@@ -56,13 +56,13 @@ namespace CarWash.BL.Services
             }
         }
 
-        public async Task SendReminderAsync(int userId, int requestId)
+        public async Task SendReminderAsync(Guid userId, Guid requestId)
         {
             var message = $"Reminder: Your wash request #{requestId} is scheduled.";
             await SendNotificationAsync(userId, message);
         }
 
-        public async Task SendReceiptAsync(int userId, int requestId)
+        public async Task SendReceiptAsync(Guid userId, Guid requestId)
         {
             var message = $"Receipt: Your wash request #{requestId} has been completed. Thank you!";
             await SendNotificationAsync(userId, message);

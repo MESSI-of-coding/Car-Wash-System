@@ -11,9 +11,9 @@ namespace CarWash.BL.Services
     {
         Task<(bool Success, string Message)> RegisterUserAsync(RegisterDto registerDto);
         Task<User?> ValidateUserAsync(LoginDto loginDto);
-        Task<User?> GetUserByIdAsync(int userId);
+        Task<User?> GetUserByIdAsync(Guid userId);
         Task<List<User>> GetAllUsersAsync(); // Retrieves all users
-        Task<bool> UpdateUserStatusAsync(int userId, bool isActive); // Updates the activation status of a user
+        Task<bool> UpdateUserStatusAsync(Guid userId, bool isActive); // Updates the activation status of a user
     }
 
     public class UserService : IUserService
@@ -86,7 +86,7 @@ namespace CarWash.BL.Services
             return user;
         }
 
-        public async Task<User?> GetUserByIdAsync(int userId)
+        public async Task<User?> GetUserByIdAsync(Guid userId)
         {
             return await _userRepository.FindAsync(userId);
         }
@@ -96,7 +96,7 @@ namespace CarWash.BL.Services
             return await _userRepository.GetAllAsync();
         }
 
-        public async Task<bool> UpdateUserStatusAsync(int userId, bool isActive)
+        public async Task<bool> UpdateUserStatusAsync(Guid userId, bool isActive)
         {
             var user = await _userRepository.FindAsync(userId);
             if (user == null) return false;

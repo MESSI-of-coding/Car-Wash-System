@@ -19,7 +19,7 @@ namespace CarWash.BL.Services
             _eventPublisher = eventPublisher;
         }
 
-        public async Task AssignWasherAsync(int requestId)
+        public async Task AssignWasherAsync(Guid requestId)
         {
             // Fetch the wash request
             var washRequest = await _dbContext.WashRequests

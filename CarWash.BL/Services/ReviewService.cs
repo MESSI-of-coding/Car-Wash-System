@@ -40,7 +40,7 @@ namespace CarWash.BL.Services
             await _reviewRepository.AddAsync(review);
         }
 
-        public async Task<List<ReviewDto>> GetReviewsForWasherAsync(int washerId)
+        public async Task<List<ReviewDto>> GetReviewsForWasherAsync(Guid washerId)
         {
             var reviews = await _reviewRepository.GetByWasherIdAsync(washerId);
 

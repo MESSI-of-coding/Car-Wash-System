@@ -5,7 +5,7 @@ namespace CarWash.Domain.Models
     public class WashPackage
     {
         [Key]
-        public int PackageId { get; set; }
+        public Guid PackageId { get; set; }
 
         [Required]
         public required string PackageName { get; set; }

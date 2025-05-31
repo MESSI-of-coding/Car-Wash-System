@@ -73,7 +73,7 @@ export class AddCarComponent {
     if (!this.carForm.valid) return;
     this.isSubmitting = true;
     const carDto = {
-      carId: 0, // Default or placeholder value for carId
+      carId: '', // Default or placeholder value for carId
       model: this.carForm.get('model')?.value,
       licensePlate: this.carForm.get('licensePlate')?.value,
       imageUrl: this.selectedImage || '', // if you're storing image as URL

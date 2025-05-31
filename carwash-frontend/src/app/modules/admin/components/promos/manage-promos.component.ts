@@ -6,7 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { PromoModalComponent } from './promo-modal.component';
 
 export interface PromoDto {
-  promoId: number;
+  promoId: string;
   code: string;
   description: string;
   discount: number;

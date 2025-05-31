@@ -5,7 +5,7 @@ namespace CarWash.Domain.Models
     public class AddOn
     {
         [Key]
-        public int AddOnId { get; set; }
+        public Guid AddOnId { get; set; }
 
         [Required(ErrorMessage = "AddOnName is required.")]
         [StringLength(100, ErrorMessage = "AddOnName cannot exceed 100 characters.")]

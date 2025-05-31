@@ -79,7 +79,7 @@ namespace CarWash.API.Controllers
 
         [Authorize]
         [HttpGet("{requestId}/client-secret")]
-        public async Task<IActionResult> GetClientSecret(int requestId)
+        public async Task<IActionResult> GetClientSecret(Guid requestId)
         {
             // Validate that the calling user owns the requestId
             var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -88,7 +88,7 @@ namespace CarWash.API.Controllers
                 return Unauthorized("User ID is missing in the token.");
             }
 
-            var userId = int.Parse(userIdClaim);
+            var userId = Guid.Parse(userIdClaim);
 
             // Replace with actual logic to validate ownership of the requestId
             var ownsRequest = await _paymentService.ValidateUserOwnsRequestAsync(userId, requestId);

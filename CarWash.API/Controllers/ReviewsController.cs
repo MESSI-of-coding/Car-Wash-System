@@ -32,7 +32,7 @@ namespace CarWash.API.Controllers
             }
 
             await _reviewService.SubmitReviewAsync(dto);
-            return Ok(new { Message = "Review submitted successfully." }); // Removed CreatedAtAction
+            return Ok(new { Message = "Review submitted successfully." });
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace CarWash.API.Controllers
         /// <param name="washerId">The ID of the washer.</param>
         /// <returns>A list of reviews for the specified washer.</returns>
         [HttpGet("{washerId}")]
-        public async Task<ActionResult<List<ReviewDto>>> GetReviewsForWasher(int washerId)
+        public async Task<ActionResult<List<ReviewDto>>> GetReviewsForWasher(Guid washerId)
         {
             var reviews = await _reviewService.GetReviewsForWasherAsync(washerId);
             return Ok(reviews);

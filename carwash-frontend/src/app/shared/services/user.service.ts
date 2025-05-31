@@ -18,7 +18,7 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/api/users/me`, dto);
   }
 
-  getWasherStats(userId: number): Observable<{ averageRating: number, totalReviews: number }> {
+  getWasherStats(userId: string): Observable<{ averageRating: number, totalReviews: number }> {
     return this.http.get<{ averageRating: number, totalReviews: number }>(
       `${this.baseUrl}/api/reviews/stats/${userId}`
     );

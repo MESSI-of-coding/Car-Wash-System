@@ -11,9 +11,11 @@ namespace CarWash.Domain.Models
             UserRoles = new HashSet<UserRole>();
             Cars = new HashSet<Car>();
             Notifications = new HashSet<Notification>();
+            UserId = Guid.NewGuid();
+
         }
 
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
 
         // Add 'required' to enforce non-null
         public required string Email { get; set; }

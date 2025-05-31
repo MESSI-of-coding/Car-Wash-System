@@ -31,7 +31,7 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
-  editUser(userId: number) {
+  editUser(userId: string) {
     // TODO: open modal or navigate to UserEditComponent
     console.log('Edit user:', userId);
   }

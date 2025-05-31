@@ -22,7 +22,7 @@ namespace CarWash.DAL.Repositories
             return car;
         }
 
-        public async Task<Car?> GetCarByIdAsync(int carId)
+        public async Task<Car?> GetCarByIdAsync(Guid carId)
         {
             return await _dbContext.Cars.FindAsync(carId);
         }
@@ -39,7 +39,7 @@ namespace CarWash.DAL.Repositories
             return car;
         }
 
-        public async Task<bool> DeleteCarAsync(int carId)
+        public async Task<bool> DeleteCarAsync(Guid carId)
         {
             var car = await _dbContext.Cars.FindAsync(carId);
             if (car == null)

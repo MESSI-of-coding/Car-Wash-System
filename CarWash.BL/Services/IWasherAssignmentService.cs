@@ -4,6 +4,6 @@ namespace CarWash.BL.Services
 {
     public interface IWasherAssignmentService
     {
-        Task AssignWasherAsync(int requestId);
+        Task AssignWasherAsync(Guid requestId);
     }
 }

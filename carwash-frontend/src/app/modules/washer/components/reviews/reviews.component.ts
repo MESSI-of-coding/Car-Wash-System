@@ -13,7 +13,7 @@ import { WasherService } from '../../services/washer.service';
 export class WasherReviewComponent implements OnInit {
   submittedReviews: any[] = [];
   reviewForm = {
-    requestId: 0,
+    requestId: '', // Changed from 0 to empty string for GUID
     rating: 0,
     comment: ''
   };
@@ -37,7 +37,9 @@ export class WasherReviewComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    this.showRequestIdError = !this.reviewForm.requestId || this.reviewForm.requestId <= 0;
+    // GUID validation regex (simple version)
+    const guidPattern = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+    this.showRequestIdError = !this.reviewForm.requestId || !guidPattern.test(this.reviewForm.requestId);
     this.showRatingError = this.reviewForm.rating < 1 || this.reviewForm.rating > 5;
     this.showCommentError = !this.reviewForm.comment || this.reviewForm.comment.trim().length < 5;
     return !(this.showRequestIdError || this.showRatingError || this.showCommentError);
@@ -51,7 +53,7 @@ export class WasherReviewComponent implements OnInit {
     this.washerService.submitCustomerReview(this.reviewForm).subscribe({
       next: () => {
         alert('Review submitted!');
-        this.reviewForm = { requestId: 0, rating: 0, comment: '' };
+        this.reviewForm = { requestId: '', rating: 0, comment: '' }; // Reset to empty string
         this.isSubmitting = false;
         this.loadReviews();
       },

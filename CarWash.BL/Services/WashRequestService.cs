@@ -40,7 +40,7 @@ namespace CarWash.BL.Services
             return createdRequest;
         }
 
-        public async Task<WashRequest> GetWashRequestByIdAsync(int id)
+        public async Task<WashRequest> GetWashRequestByIdAsync(Guid id)
         {
             return await _washRequestRepository.GetByIdAsync(id);
         }
@@ -50,7 +50,7 @@ namespace CarWash.BL.Services
             return await _washRequestRepository.GetAllAsync();
         }
 
-        public async Task<bool> UpdateWashRequestStatusAsync(int id, string status)
+        public async Task<bool> UpdateWashRequestStatusAsync(Guid id, string status)
         {
             var request = await _washRequestRepository.GetByIdAsync(id);
             if (request == null || !Enum.TryParse(status, true, out WashStatus newStatus))
@@ -82,17 +82,17 @@ namespace CarWash.BL.Services
             return true;
         }
 
-        public async Task<bool> IsValidCustomerId(int customerId)
+        public async Task<bool> IsValidCustomerId(Guid customerId)
         {
             return await _dbContext.Users.AnyAsync(u => u.UserId == customerId);
         }
 
-        public async Task<bool> IsValidCarId(int carId)
+        public async Task<bool> IsValidCarId(Guid carId)
         {
             return await _dbContext.Cars.AnyAsync(c => c.CarId == carId);
         }
 
-        public async Task<bool> IsValidPackageId(int packageId)
+        public async Task<bool> IsValidPackageId(Guid packageId)
         {
             return await _dbContext.WashPackages.AnyAsync(p => p.PackageId == packageId);
         }
@@ -103,13 +103,13 @@ namespace CarWash.BL.Services
             return validStatuses.Contains(status);
         }
 
-        public async Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(int userId)
+        public async Task<IEnumerable<WashRequestDto>> GetWashRequestsByUserIdAsync(Guid userId)
         {
             var washRequests = await _washRequestRepository.GetWashRequestsByUserIdAsync(userId);
             return _mapper.Map<IEnumerable<WashRequestDto>>(washRequests);
         }
 
-        public async Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, int serviceType)
+        public async Task<List<WashRequest>> GetFilteredWashRequestsAsync(DateTime startDate, DateTime endDate, Guid serviceType)
         {
             return await _dbContext.WashRequests
                 .Where(wr => wr.ScheduledDateTime.Date >= startDate.Date && wr.ScheduledDateTime.Date <= endDate.Date && wr.PackageId == serviceType)

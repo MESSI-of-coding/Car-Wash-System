@@ -4,8 +4,8 @@ namespace CarWash.Domain.Models
 {
     public class WashRequestAddOn
     {
-        public int RequestId { get; set; }
-        public int AddOnId { get; set; }
+        public Guid RequestId { get; set; }
+        public Guid AddOnId { get; set; }
         public int Quantity { get; set; } = 1;
 
         // Navigation properties

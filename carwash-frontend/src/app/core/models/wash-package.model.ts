@@ -1,6 +1,6 @@
 // Model for a car wash package
 export interface WashPackage {
-  packageId: number;
+  packageId: string;
   packageName: string;
   description?: string;
   price: number;

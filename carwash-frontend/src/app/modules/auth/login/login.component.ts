@@ -25,7 +25,16 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            // This regex enforces industry-standard email format (RFC 5322 compliant for most cases)
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+          )
+        ]
+      ],
       password: ['', Validators.required],
     });
   }

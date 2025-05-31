@@ -6,7 +6,7 @@ namespace CarWash.Domain.Models
     public class Role
     {
         [Key]
-        public int RoleId { get; set; }
+        public Guid RoleId { get; set; }
 
         [Required]
         public required string RoleName { get; set; }

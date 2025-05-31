@@ -4,8 +4,8 @@ namespace CarWash.BL.Services
 {
     public interface INotificationService
     {
-        Task SendNotificationAsync(int userId, string message);
-        Task SendReminderAsync(int userId, int requestId);
-        Task SendReceiptAsync(int userId, int requestId);
+        Task SendNotificationAsync(Guid userId, string message);
+        Task SendReminderAsync(Guid userId, Guid requestId);
+        Task SendReceiptAsync(Guid userId, Guid requestId);
     }
 }

@@ -18,11 +18,11 @@ export const COMMON_IMPORTS = [RouterOutlet];
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  //title = 'BrightWheel Care';
+  title = 'BrightWheel Care';
 
-  // constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
+  constructor(private googleMapsLoader: GoogleMapsLoaderService) {}
 
-  // async ngOnInit() {
-  //   await this.googleMapsLoader.load();
-  // }
+  async ngOnInit() {
+    await this.googleMapsLoader.load();
+  }
 }

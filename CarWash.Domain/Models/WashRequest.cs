@@ -6,18 +6,18 @@ namespace CarWash.Domain.Models
     public class WashRequest
     {
         [Key]
-        public int RequestId { get; set; }
+        public Guid RequestId { get; set; }
 
         [Required]
-        public int CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
 
-        public int? WasherId { get; set; }
-
-        [Required]
-        public int CarId { get; set; }
+        public Guid? WasherId { get; set; }
 
         [Required]
-        public int PackageId { get; set; }
+        public Guid CarId { get; set; }
+
+        [Required]
+        public Guid PackageId { get; set; }
 
         [Required]
         public DateTime ScheduledDateTime { get; set; }

@@ -16,7 +16,7 @@ namespace CarWash.DAL.Repositories
             _context = context;
         }
 
-        public async Task<Leaderboard> GetByUserIdAsync(int userId)
+        public async Task<Leaderboard> GetByUserIdAsync(Guid userId)
         {
             return await _context.Leaderboard.FirstOrDefaultAsync(l => l.UserId == userId);
         }

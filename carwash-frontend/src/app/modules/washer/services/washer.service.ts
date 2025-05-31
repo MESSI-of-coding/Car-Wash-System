@@ -13,15 +13,15 @@ export class WasherService {
     return this.http.get(`${this.baseUrl}/washer/dashboard`);
   }
 
-  getWashRequest(id: number): Observable<any> {
+  getWashRequest(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/washer/wash-requests/${id}`);
   }
 
-  acceptRequest(id: number): Observable<any> {
+  acceptRequest(id: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/washer/wash-requests/${id}/accept`, {});
   }
 
-  declineRequest(id: number): Observable<any> {
+  declineRequest(id: string): Observable<any> {
     return this.http.put(`${this.baseUrl}/washer/wash-requests/${id}/decline`, {});
   }
 
@@ -33,7 +33,7 @@ export class WasherService {
     return this.http.get<any[]>(`${this.baseUrl}/washer/reviews/given`);
   }
 
-  submitCustomerReview(reviewDto: { requestId: number; rating: number; comment: string }): Observable<any> {
+  submitCustomerReview(reviewDto: { requestId: string; rating: number; comment: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/washer/reviews`, reviewDto);
   }
 
